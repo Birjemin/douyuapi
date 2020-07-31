@@ -64,7 +64,8 @@ func TestOuterChat(t *testing.T) {
 	}
 
 	timestamp := utils.GetCurrTime()
-	chat := fmt.Sprintf(`{"chat":[{"room_id":1000,"uid":1000,"nick_name":"test","content":"Hello~~","timestamp":%d,"ip":"10.0.0.0"}]}`, timestamp)
+
+	chat := fmt.Sprintf(`{"chat":[{"room_id":%d,"uid":%d,"nick_name":"%s","content":"%s","timestamp":%d,"ip":"%s"}]}`, 1000, 1000, "test", "hello", timestamp, "10.0.0.0")
 
 	if ret, err := outChat.do(ts.URL+OuterChatUri, chat, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
