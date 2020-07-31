@@ -9,9 +9,7 @@ import (
 	"strings"
 )
 
-// var c = &http.Client{
-// 	Timeout: 5 * time.Second, // 5s timeout
-// }
+// HttpClient
 type HttpClient struct {
 	Client      *http.Client
 	Response    *http.Response
