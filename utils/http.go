@@ -14,7 +14,6 @@ import (
 // }
 type HttpClient struct {
 	Client      *http.Client
-	ContentType string
 	Response    *http.Response
 }
 
