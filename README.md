@@ -13,6 +13,7 @@ go get github.com/birjemin/douyuapi
 - [直播视频流](https://open.douyu.com/source/api/9) ✅
 - 房间信息
    - [指定房间信息](https://open.douyu.com/source/api/15)✅
+   - [批量房间获取](https://open.douyu.com/source/api/25)⚠️
 - [接入弹幕](https://open.douyu.com/source/api/66) ✅
 
 ### 使用方式
