@@ -32,7 +32,7 @@ func TestGetCid1Info(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":[{"cid1":688,"name1":"test"}]}`
+		raw := `{"code":0,"msg":"","data":[{"cid1":4,"name1":"688"}]}`
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -62,6 +62,9 @@ func TestGetCid1Info(t *testing.T) {
 	} else {
 		if ret.Code != 0 {
 			t.Error(errors.New("msg: " + ret.Msg))
+		}
+		if (ret.Data)[0].CID1 !=  4 {
+			t.Error(errors.New("err ret"))
 		}
 	}
 }

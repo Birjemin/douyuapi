@@ -1,7 +1,6 @@
 package douyuapi
 
 import (
-	"errors"
 	"github.com/birjemin/douyuapi/utils"
 	"github.com/spf13/cast"
 	"io/ioutil"
@@ -68,7 +67,10 @@ func TestBatchGetRoomInfo(t *testing.T) {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
-			t.Error(errors.New("msg: " + ret.Msg))
+			t.Fatal("msg: " + ret.Msg)
+		}
+		if (ret.Data)[0].RID != 688 {
+			t.Fatal("err ret")
 		}
 	}
 }

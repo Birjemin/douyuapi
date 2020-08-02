@@ -1,7 +1,6 @@
 package douyuapi
 
 import (
-	"errors"
 	"github.com/birjemin/douyuapi/utils"
 	"github.com/spf13/cast"
 	"net/http"
@@ -60,7 +59,10 @@ func TestToken(t *testing.T) {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
-			t.Error(errors.New("msg: " + ret.Msg))
+			t.Fatal("msg: " + ret.Msg)
+		}
+		if ret.Data.Token !=  "ACCESS_TOKEN" {
+			t.Fatal("get toke failed")
 		}
 	}
 }
