@@ -58,7 +58,7 @@ func (c *HttpClient) GetResponseByte() []byte {
 	var body []byte
 	var err error
 
-	defer c.Response.Body.Close()
+	// defer c.Response.Body.Close()
 	if body, err = ioutil.ReadAll(c.Response.Body); err != nil {
 		log.Println("[http]method:GetResponseByte, body err: ", err)
 	}

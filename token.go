@@ -11,9 +11,9 @@ type Token struct {
 type TokenResponse struct {
 	ErrorResponse
 	Data struct {
-		Token  string
-		Expire int
-	}
+		Token  string `json:"token"`
+		Expire int    `json:"expire"`
+	} `json:"data"`
 }
 
 // Handle
