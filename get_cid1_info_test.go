@@ -2,23 +2,20 @@ package douyuapi
 
 import (
 	"errors"
-	"fmt"
 	"github.com/birjemin/douyuapi/utils"
 	"github.com/spf13/cast"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
 )
 
-// TestOuterChat
-func TestOuterChat(t *testing.T) {
+func TestGetCid1Info(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != OuterChatUri {
-			t.Fatalf("path is invalid: %s, %s'", OuterChatUri, path)
+		if path != Cid1InfoUri {
+			t.Fatalf("path is invalid: %s, %s'", Cid1InfoUri, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -33,14 +30,9 @@ func TestOuterChat(t *testing.T) {
 			}
 		}
 
-		body, _ := ioutil.ReadAll(r.Body)
-		if string(body) == "" {
-			t.Fatal("body is empty")
-		}
-
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code": 0, "msg":"ok", "data": ""}`
+		raw := `{"code":0,"msg":"","data":[{"cid1":688,"name1":"test"}]}`
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -54,7 +46,7 @@ func TestOuterChat(t *testing.T) {
 		},
 	}
 
-	outChat := &OuterChat{
+	cid1Info := &Cid1Info{
 		BaseClient: BaseClient{
 			Client: httpClient,
 			Secret: "test-secret",
@@ -65,9 +57,7 @@ func TestOuterChat(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	chat := fmt.Sprintf(`{"chat":[{"room_id":%d,"uid":%d,"nick_name":"%s","content":"%s","timestamp":%d,"ip":"%s"}]}`, 1000, 1000, "test", "hello", timestamp, "10.0.0.0")
-
-	if ret, err := outChat.do(ts.URL+OuterChatUri, chat, cast.ToString(timestamp)); err != nil {
+	if ret, err := cid1Info.do(ts.URL+Cid1InfoUri, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {

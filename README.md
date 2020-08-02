@@ -14,6 +14,8 @@ go get github.com/birjemin/douyuapi
 - 房间信息
    - [指定房间信息](https://open.douyu.com/source/api/15)✅
    - [批量房间获取](https://open.douyu.com/source/api/25)⚠️
+- 分类信息
+   - [一级分类](https://open.douyu.com/source/api/17)⚠️
 - [接入弹幕](https://open.douyu.com/source/api/66) ✅
 
 ### 使用方式
