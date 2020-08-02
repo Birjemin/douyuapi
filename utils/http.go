@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"encoding/json"
+	"errors"
+	jsoniter "github.com/json-iterator/go"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -40,7 +40,9 @@ func (c *HttpClient) HttpPostJson(url, jsonStr string) error {
 // doPostRequest
 func (c *HttpClient) doPostRequest(url, str, contentType string) (err error) {
 	var req *http.Request
-	if req, err = http.NewRequest("POST", url, strings.NewReader(str)); err == nil {
+	if req, err = http.NewRequest("POST", url, strings.NewReader(str)); err != nil {
+		return errors.New("sending http request error")
+	} else {
 		req.Header.Set("Content-Type", contentType)
 		c.Response, err = c.Client.Do(req)
 	}
@@ -49,20 +51,21 @@ func (c *HttpClient) doPostRequest(url, str, contentType string) (err error) {
 
 // GetResponseJson
 func (c *HttpClient) GetResponseJson(response interface{}) error {
+	if c.Response.Body == nil {
+		return errors.New("http request response body is empty")
+	}
+	var json = jsoniter.ConfigCompatibleWithStandardLibrary
 	defer c.Response.Body.Close()
 	return json.NewDecoder(c.Response.Body).Decode(response)
 }
 
 // GetResponseByte
-func (c *HttpClient) GetResponseByte() []byte {
-	var body []byte
-	var err error
-
-	// defer c.Response.Body.Close()
-	if body, err = ioutil.ReadAll(c.Response.Body); err != nil {
-		log.Println("[http]method:GetResponseByte, body err: ", err)
+func (c *HttpClient) GetResponseByte() (body []byte, err error) {
+	if c.Response.Body == nil {
+		return []byte{}, errors.New("http request response body is empty")
 	}
-	return body
+	defer c.Response.Body.Close()
+	return ioutil.ReadAll(c.Response.Body)
 }
 
 // HttpQueryBuild

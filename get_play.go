@@ -21,8 +21,8 @@ type PlayResponse struct {
 		LiveUrl    string      `json:"live_url"`
 		HlsUrl     string      `json:"hls_url"`
 		MixUrl     string      `json:"mix_url"`
-		RateSwitch int      `json:"rate_switch"`
-		ShowStatus int      `json:"show_status"`
+		RateSwitch int         `json:"rate_switch"`
+		ShowStatus int         `json:"show_status"`
 		HlsMul     interface{} `json:"hls_mul"`
 		FlvMul     interface{} `json:"flv_mul"`
 	} `json:"data"`
@@ -48,9 +48,11 @@ func (p *Play) do(url string, postJson string, timestamp string) (*PlayResponse,
 		return nil, err
 	} else {
 		var ret = new(PlayResponse)
-		if err = p.Client.GetResponseJson(ret); err != nil {
+		if err := p.Client.GetResponseJson(ret); err != nil {
 			return nil, err
+		} else {
+			return ret, nil
 		}
-		return ret, nil
+
 	}
 }

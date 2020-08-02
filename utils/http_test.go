@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -26,11 +25,14 @@ func TestGetString(t *testing.T) {
 		},
 	}
 
-	err := c.HttpGet(ts.URL, map[string]string{"param": "hello get", "param1": "yo~"})
-	if err != nil {
+	if err := c.HttpGet(ts.URL, map[string]string{"param": "hello get", "param1": "yo~"}); err != nil {
 		t.Fatal(err)
 	}
-	ast.Equal(c.GetResponseByte(), []byte("hello get"))
+	if ret, err := c.GetResponseByte(); err != nil {
+		t.Fatal(err)
+	} else {
+		ast.Equal(ret, []byte("hello get"))
+	}
 }
 
 // TestGet
@@ -48,8 +50,7 @@ func TestGetJson(t *testing.T) {
 		},
 	}
 
-	err := c.HttpGet(ts.URL, map[string]string{"param": "{\"code\":1,\"msg\":\"ddd\"}", "param1": "yo~"})
-	if err != nil {
+	if err := c.HttpGet(ts.URL, map[string]string{"param": "{\"code\":1,\"msg\":\"ddd\"}", "param1": "yo~"}); err != nil {
 		t.Fatal(err)
 	}
 
@@ -58,8 +59,7 @@ func TestGetJson(t *testing.T) {
 		Msg  string
 	}
 	var resp = new(JsonResponse)
-	err = c.GetResponseJson(resp)
-	if err != nil {
+	if err := c.GetResponseJson(resp); err != nil {
 		t.Fatal(err)
 	}
 	ast.Equal(1, resp.Code)
@@ -81,11 +81,15 @@ func TestPostString(t *testing.T) {
 		},
 	}
 
-	err := c.HttpPost(ts.URL, map[string]string{"param": "hello post", "param1": "yo~"})
-	if err != nil {
+	if err := c.HttpPost(ts.URL, map[string]string{"param": "hello post", "param1": "yo~"}); err != nil {
 		t.Fatal(err)
 	}
-	ast.Equal(c.GetResponseByte(), []byte("hello post"))
+
+	if ret, err := c.GetResponseByte(); err != nil {
+		t.Fatal(err)
+	} else {
+		ast.Equal(ret, []byte("hello post"))
+	}
 }
 
 // TestPostJson
@@ -128,6 +132,5 @@ func TestHttpQueryBuild(t *testing.T) {
 	ast := assert.New(t)
 
 	ret := HttpQueryBuild(map[string]string{"b": "11", "a": "22"})
-	log.Println(ret)
 	ast.Equal(ret, "a=22&b=11")
 }

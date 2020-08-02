@@ -11,11 +11,13 @@ go get github.com/birjemin/douyuapi
 
 - [token获取接口](https://open.douyu.com/source/api/8) ✅
 - [直播视频流](https://open.douyu.com/source/api/9) ✅
+- 房间信息
+   - [指定房间信息](https://open.douyu.com/source/api/15)✅
 - [接入弹幕](https://open.douyu.com/source/api/66) ✅
 
 ### 使用方式
 
-- 参见test
+- 参见test和参考文档
 
 ### 备注
 后续会补足新接口
