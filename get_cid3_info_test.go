@@ -10,13 +10,12 @@ import (
 	"time"
 )
 
-// TestGetCid1Info
-func TestGetCid1Info(t *testing.T) {
+func TestGetCid3Info(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != Cid1InfoUri {
-			t.Fatalf("path is invalid: %s, %s'", Cid1InfoUri, path)
+		if path != Cid3InfoUri {
+			t.Fatalf("path is invalid: %s, %s'", Cid3InfoUri, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -33,7 +32,7 @@ func TestGetCid1Info(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":[{"cid1":4,"name1":"688"}]}`
+		raw := `{"code":0,"msg":"","data":[{"cid3":4,"name3":"688"}]}`
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -47,7 +46,7 @@ func TestGetCid1Info(t *testing.T) {
 		},
 	}
 
-	cid1Info := &Cid1Info{
+	cid3Info := &Cid3Info{
 		BaseClient: BaseClient{
 			Client: httpClient,
 			Secret: "test-secret",
@@ -58,13 +57,13 @@ func TestGetCid1Info(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := cid1Info.do(ts.URL+Cid1InfoUri, cast.ToString(timestamp)); err != nil {
+	if ret, err := cid3Info.do(ts.URL+Cid3InfoUri, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
-		if (ret.Data)[0].CID1 !=  4 {
+		if (ret.Data)[0].CID3 !=  4 {
 			t.Error(errors.New("err ret"))
 		}
 	}
