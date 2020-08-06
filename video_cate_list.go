@@ -12,7 +12,7 @@ type VideoCateList struct {
 	Token string
 }
 
-// VideoCateList
+// VideoCateListResponse
 type VideoCateListResponse struct {
 	ErrorResponse
 	Data []struct {

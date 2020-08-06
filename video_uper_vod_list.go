@@ -4,16 +4,16 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const videoCateVodListUri = "/api/thirdPart/video/cateVodList"
+const videoUperVodListUri = "/api/thirdPart/video/uperVodList"
 
-// VideoCateVodList
-type VideoCateVodList struct {
+// VideoUperVodList
+type VideoUperVodList struct {
 	BaseClient
 	Token string
 }
 
-// VideoCateVodListResponse
-type VideoCateVodListResponse struct {
+// VideoUperVodListResponse
+type VideoUperVodListResponse struct {
 	ErrorResponse
 	Data []struct {
 		HashID             string `json:"hash_id"`
@@ -39,25 +39,25 @@ type VideoCateVodListResponse struct {
 }
 
 // Handle
-func (p *VideoCateVodList) Handle(postJson, timestamp string) (*VideoCateVodListResponse, error) {
-	return p.do(DouYuDomain+videoCateVodListUri, postJson, timestamp)
+func (p *VideoUperVodList) Handle(postJson, timestamp string) (*VideoUperVodListResponse, error) {
+	return p.do(DouYuDomain+videoUperVodListUri, postJson, timestamp)
 }
 
 // do
-func (p *VideoCateVodList) do(url, postJson, timestamp string) (*VideoCateVodListResponse, error) {
+func (p *VideoUperVodList) do(url, postJson, timestamp string) (*VideoUperVodListResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, videoCateVodListUri, params)
+	params["auth"] = GetSign(p.Secret, videoUperVodListUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
 	if err := p.Client.HttpPostJson(url, postJson); err != nil {
 		return nil, err
 	} else {
-		var ret = new(VideoCateVodListResponse)
+		var ret = new(VideoUperVodListResponse)
 		if err := p.Client.GetResponseJson(ret); err != nil {
 			return nil, err
 		} else {
