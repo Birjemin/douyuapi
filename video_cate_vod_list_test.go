@@ -39,7 +39,7 @@ func TestVideoCateVodList(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":[{"cid2":1,"cname2":""}]}`
+		raw := `{"code":0,"msg":"","data":[{"hash_id":"3rob7jb55Dj7gkZl","cid1":260}]}`
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -67,7 +67,7 @@ func TestVideoCateVodList(t *testing.T) {
 	if ret, err := video.do(ts.URL+videoCateVodListUri, postStr, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
-		if ret.Code != 0 || (ret.Data)[0].Cid2 != 1 {
+		if ret.Code != 0 || (ret.Data)[0].HashID != "3rob7jb55Dj7gkZl" {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}
