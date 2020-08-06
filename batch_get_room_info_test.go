@@ -15,8 +15,8 @@ func TestBatchGetRoomInfo(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != BatchRoomInfoUri {
-			t.Fatalf("path is invalid: %s, %s'", BatchRoomInfoUri, path)
+		if path != batchRoomInfoUri {
+			t.Fatalf("path is invalid: %s, %s'", batchRoomInfoUri, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -63,7 +63,7 @@ func TestBatchGetRoomInfo(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := batchRoomInfo.do(ts.URL+BatchRoomInfoUri, `{"rids": [288016]}`, cast.ToString(timestamp)); err != nil {
+	if ret, err := batchRoomInfo.do(ts.URL+batchRoomInfoUri, `{"rids": [288016]}`, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {

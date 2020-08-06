@@ -14,8 +14,8 @@ func TestGetCid3Info(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != Cid3InfoUri {
-			t.Fatalf("path is invalid: %s, %s'", Cid3InfoUri, path)
+		if path != cid3InfoUri {
+			t.Fatalf("path is invalid: %s, %s'", cid3InfoUri, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -57,7 +57,7 @@ func TestGetCid3Info(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := cid3Info.do(ts.URL+Cid3InfoUri, cast.ToString(timestamp)); err != nil {
+	if ret, err := cid3Info.do(ts.URL+cid3InfoUri, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {

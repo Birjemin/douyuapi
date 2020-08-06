@@ -4,7 +4,7 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const RoomInfoUri = "/api/thirdPart/getRoomInfo"
+const roomInfoUri = "/api/thirdPart/getRoomInfo"
 
 // RoomInfo
 type RoomInfo struct {
@@ -40,7 +40,7 @@ type RoomInfoResponse struct {
 
 // Handle
 func (r *RoomInfo) Handle(postJson, timestamp string) (*RoomInfoResponse, error) {
-	return r.do(DouYuDomain+RoomInfoUri, postJson, timestamp)
+	return r.do(DouYuDomain+roomInfoUri, postJson, timestamp)
 }
 
 // do
@@ -50,7 +50,7 @@ func (r *RoomInfo) do(url string, postJson string, timestamp string) (*RoomInfoR
 		"time":  timestamp,
 		"token": r.Token,
 	}
-	params["auth"] = GetSign(r.Secret, RoomInfoUri, params)
+	params["auth"] = GetSign(r.Secret, roomInfoUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 

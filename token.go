@@ -1,6 +1,6 @@
 package douyuapi
 
-const TokenUri = "/api/thirdPart/token"
+const tokenUri = "/api/thirdPart/token"
 
 // Token
 type Token struct {
@@ -18,7 +18,7 @@ type TokenResponse struct {
 
 // Handle
 func (t *Token) Handle(timestamp string) (*TokenResponse, error) {
-	return t.do(DouYuDomain+TokenUri, timestamp)
+	return t.do(DouYuDomain+tokenUri, timestamp)
 }
 
 // do
@@ -27,7 +27,7 @@ func (t *Token) do(url, timestamp string) (*TokenResponse, error) {
 		"aid":  t.AID,
 		"time": timestamp,
 	}
-	params["auth"] = GetSign(t.Secret, TokenUri, params)
+	params["auth"] = GetSign(t.Secret, tokenUri, params)
 
 	if err := t.Client.HttpGet(url, params); err != nil {
 		return nil, err

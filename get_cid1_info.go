@@ -4,7 +4,7 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const Cid1InfoUri = "/api/thirdPart/getCid1Info"
+const cid1InfoUri = "/api/thirdPart/getCid1Info"
 
 // Cid1Info
 type Cid1Info struct {
@@ -23,7 +23,7 @@ type Cid1InfoResponse struct {
 
 // Handle
 func (r *Cid1Info) Handle(timestamp string) (*Cid1InfoResponse, error) {
-	return r.do(DouYuDomain+Cid1InfoUri, timestamp)
+	return r.do(DouYuDomain+cid1InfoUri, timestamp)
 }
 
 // do
@@ -33,7 +33,7 @@ func (r *Cid1Info) do(url string, timestamp string) (*Cid1InfoResponse, error) {
 		"time":  timestamp,
 		"token": r.Token,
 	}
-	params["auth"] = GetSign(r.Secret, Cid1InfoUri, params)
+	params["auth"] = GetSign(r.Secret, cid1InfoUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 

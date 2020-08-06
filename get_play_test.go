@@ -15,8 +15,8 @@ func TestGetPlay(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != PlayUri {
-			t.Fatalf("path is invalid: %s, %s'", PlayUri, path)
+		if path != playUri {
+			t.Fatalf("path is invalid: %s, %s'", playUri, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -63,7 +63,7 @@ func TestGetPlay(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := play.do(ts.URL+PlayUri, `{"rid": 288016}`, cast.ToString(timestamp)); err != nil {
+	if ret, err := play.do(ts.URL+playUri, `{"rid": 288016}`, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {

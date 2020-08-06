@@ -4,7 +4,7 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const OuterChatUri = "/api/thirdPart/outerChat"
+const outerChatUri = "/api/thirdPart/outerChat"
 
 // Token
 type OuterChat struct {
@@ -20,7 +20,7 @@ type OuterChatResponse struct {
 
 // Handle
 func (t *OuterChat) Handle(chat, timestamp string) (*OuterChatResponse, error) {
-	return t.do(DouYuDomain+OuterChatUri, chat, timestamp)
+	return t.do(DouYuDomain+outerChatUri, chat, timestamp)
 }
 
 // do
@@ -30,7 +30,7 @@ func (t *OuterChat) do(url, chat, timestamp string) (*OuterChatResponse, error) 
 		"time":  timestamp,
 		"token": t.Token,
 	}
-	params["auth"] = GetSign(t.Secret, OuterChatUri, params)
+	params["auth"] = GetSign(t.Secret, outerChatUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 	if err := t.Client.HttpPostJson(url, chat); err != nil {

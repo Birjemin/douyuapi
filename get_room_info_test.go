@@ -15,8 +15,8 @@ func TestGetRoomInfo(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != RoomInfoUri {
-			t.Fatalf("path is invalid: %s, %s'", RoomInfoUri, path)
+		if path != roomInfoUri {
+			t.Fatalf("path is invalid: %s, %s'", roomInfoUri, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -63,7 +63,7 @@ func TestGetRoomInfo(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := room.do(ts.URL+RoomInfoUri, `{"rid": 288016}`, cast.ToString(timestamp)); err != nil {
+	if ret, err := room.do(ts.URL+roomInfoUri, `{"rid": 288016}`, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {

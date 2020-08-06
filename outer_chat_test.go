@@ -17,8 +17,8 @@ func TestOuterChat(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != OuterChatUri {
-			t.Fatalf("path is invalid: %s, %s'", OuterChatUri, path)
+		if path != outerChatUri {
+			t.Fatalf("path is invalid: %s, %s'", outerChatUri, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -67,7 +67,7 @@ func TestOuterChat(t *testing.T) {
 
 	chat := fmt.Sprintf(`{"chat":[{"room_id":%d,"uid":%d,"nick_name":"%s","content":"%s","timestamp":%d,"ip":"%s"}]}`, 1000, 1000, "test", "hello", timestamp, "10.0.0.0")
 
-	if ret, err := outChat.do(ts.URL+OuterChatUri, chat, cast.ToString(timestamp)); err != nil {
+	if ret, err := outChat.do(ts.URL+outerChatUri, chat, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {

@@ -4,7 +4,7 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const BatchRoomInfoUri = "/api/thirdPart/batchGetRoomInfo"
+const batchRoomInfoUri = "/api/thirdPart/batchGetRoomInfo"
 
 // BatchRoomInfo
 type BatchRoomInfo struct {
@@ -37,7 +37,7 @@ type BatchRoomInfoResponse struct {
 
 // Handle
 func (r *BatchRoomInfo) Handle(postJson, timestamp string) (*BatchRoomInfoResponse, error) {
-	return r.do(DouYuDomain+BatchRoomInfoUri, postJson, timestamp)
+	return r.do(DouYuDomain+batchRoomInfoUri, postJson, timestamp)
 }
 
 // do
@@ -47,7 +47,7 @@ func (r *BatchRoomInfo) do(url string, postJson string, timestamp string) (*Batc
 		"time":  timestamp,
 		"token": r.Token,
 	}
-	params["auth"] = GetSign(r.Secret, BatchRoomInfoUri, params)
+	params["auth"] = GetSign(r.Secret, batchRoomInfoUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 

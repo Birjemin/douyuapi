@@ -1,28 +1,30 @@
 package douyuapi
 
 import (
+	"errors"
 	"github.com/birjemin/douyuapi/utils"
 	"github.com/spf13/cast"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
 )
 
-// TestToken
-func TestToken(t *testing.T) {
+// TestLive
+func TestLive(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != tokenUri {
-			t.Fatalf("path is invalid: %s, %s'", tokenUri, path)
+		if path != liveUri {
+			t.Fatalf("path is invalid: %s, %s'", liveUri, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
 			t.Fatal(err)
 		}
 
-		queries := []string{"aid", "auth", "time"}
+		queries := []string{"aid", "auth", "time", "token"}
 		for _, v := range queries {
 			content := r.Form.Get(v)
 			if content == "" {
@@ -30,9 +32,14 @@ func TestToken(t *testing.T) {
 			}
 		}
 
+		body, _ := ioutil.ReadAll(r.Body)
+		if string(body) == "" {
+			t.Fatal("body is empty")
+		}
+
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code": 0, "msg":"", "data": {"token":"ACCESS_TOKEN","expire":7200}}`
+		raw := `{"code": 0, "msg":"ok", "data": {"080006E2-5666-49C1-8786-3FD9FC77DC0A":1}}`
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -46,23 +53,24 @@ func TestToken(t *testing.T) {
 		},
 	}
 
-	token := &Token{
+	live := &Live{
 		BaseClient: BaseClient{
 			Client: httpClient,
 			Secret: "test-secret",
 			AID:    "test-aid",
 		},
+		Token: "test-token",
 	}
 
-	timestamp := cast.ToString(utils.GetCurrTime())
-	if ret, err := token.do(ts.URL+tokenUri, timestamp); err != nil {
+	timestamp := utils.GetCurrTime()
+
+	msg := `{"cid_type":2,"cid":2111,"limit":10,"offset":0}`
+
+	if ret, err := live.do(ts.URL+liveUri, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
-			t.Fatal("msg: " + ret.Msg)
-		}
-		if ret.Data.Token !=  "ACCESS_TOKEN" {
-			t.Fatal("get toke failed")
+			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}
 }
