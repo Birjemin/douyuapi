@@ -27,7 +27,7 @@ func (r *Cid1Info) Handle(timestamp string) (*Cid1InfoResponse, error) {
 }
 
 // do
-func (r *Cid1Info) do(url string, timestamp string) (*Cid1InfoResponse, error) {
+func (r *Cid1Info) do(url, timestamp string) (*Cid1InfoResponse, error) {
 	var params = map[string]string{
 		"aid":   r.AID,
 		"time":  timestamp,

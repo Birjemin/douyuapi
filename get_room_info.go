@@ -44,7 +44,7 @@ func (r *RoomInfo) Handle(postJson, timestamp string) (*RoomInfoResponse, error)
 }
 
 // do
-func (r *RoomInfo) do(url string, postJson string, timestamp string) (*RoomInfoResponse, error) {
+func (r *RoomInfo) do(url, postJson, timestamp string) (*RoomInfoResponse, error) {
 	var params = map[string]string{
 		"aid":   r.AID,
 		"time":  timestamp,

@@ -41,7 +41,7 @@ func (r *BatchRoomInfo) Handle(postJson, timestamp string) (*BatchRoomInfoRespon
 }
 
 // do
-func (r *BatchRoomInfo) do(url string, postJson string, timestamp string) (*BatchRoomInfoResponse, error) {
+func (r *BatchRoomInfo) do(url, postJson, timestamp string) (*BatchRoomInfoResponse, error) {
 	var params = map[string]string{
 		"aid":   r.AID,
 		"time":  timestamp,

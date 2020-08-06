@@ -34,7 +34,7 @@ func (p *Play) Handle(postJson, timestamp string) (*PlayResponse, error) {
 }
 
 // do
-func (p *Play) do(url string, postJson string, timestamp string) (*PlayResponse, error) {
+func (p *Play) do(url, postJson, timestamp string) (*PlayResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,

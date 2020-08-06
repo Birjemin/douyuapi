@@ -27,7 +27,7 @@ func (p *VideoCateList) Handle(timestamp string) (*VideoCateListResponse, error)
 }
 
 // do
-func (p *VideoCateList) do(url string, timestamp string) (*VideoCateListResponse, error) {
+func (p *VideoCateList) do(url, timestamp string) (*VideoCateListResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,

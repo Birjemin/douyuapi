@@ -37,7 +37,7 @@ func (p *Live) Handle(postJson, timestamp string) (*LiveResponse, error) {
 }
 
 // do
-func (p *Live) do(url string, postJson string, timestamp string) (*LiveResponse, error) {
+func (p *Live) do(url, postJson, timestamp string) (*LiveResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
