@@ -22,6 +22,8 @@ go get github.com/birjemin/douyuapi
 - 分类列表房间信息
    - [直播间列表信息](https://open.douyu.com/source/api/22)✅
    - [分类全量在线房间](https://open.douyu.com/source/api/57)⚠️
+- 点播视频
+   - [获取点播二级分类列表](https://open.douyu.com/source/api/32)⚠️
 - [接入弹幕](https://open.douyu.com/source/api/66) ✅
 
 ### 使用方式
