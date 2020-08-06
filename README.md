@@ -20,7 +20,7 @@ go get github.com/birjemin/douyuapi
    - [三级分类](https://open.douyu.com/source/api/19)⚠️
 - [批量获取idfa信息](https://open.douyu.com/source/api/26)⚠️
 - 分类列表房间信息
-   - [直播间列表信息](https://open.douyu.com/source/api/22)⚠️
+   - [直播间列表信息](https://open.douyu.com/source/api/22)✅
 - [接入弹幕](https://open.douyu.com/source/api/66) ✅
 
 ### 使用方式

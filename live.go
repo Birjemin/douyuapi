@@ -4,7 +4,7 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const liveUri = "/api/thirdPart/Live"
+const liveUri = "/api/thirdPart/live"
 
 // Live
 type Live struct {
@@ -15,16 +15,19 @@ type Live struct {
 // LiveResponse
 type LiveResponse struct {
 	ErrorResponse
-	Data struct {
-		RID        int         `json:"rid"`
-		RoomName   string      `json:"room_name"`
-		LiveUrl    string      `json:"live_url"`
-		HlsUrl     string      `json:"hls_url"`
-		MixUrl     string      `json:"mix_url"`
-		RateSwitch int         `json:"rate_switch"`
-		ShowStatus int         `json:"show_status"`
-		HlsMul     interface{} `json:"hls_mul"`
-		FlvMul     interface{} `json:"flv_mul"`
+	Data []struct {
+		RID      int    `json:"rid"`
+		RoomName string `json:"room_name"`
+		RoomSrc  string `json:"room_src"`
+		Hn       int    `json:"hn"`
+		Nickname string `json:"nickname"`
+		Avatar   string `json:"avatar"`
+		Cid1     int    `json:"cid1"`
+		Cname1   string `json:"cname1"`
+		Cid2     int    `json:"cid2"`
+		Cname2   string `json:"cname2"`
+		Cid3     int    `json:"cid3"`
+		Cname3   string `json:"cname3"`
 	} `json:"data"`
 }
 

@@ -39,7 +39,7 @@ func TestLive(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code": 0, "msg":"ok", "data": {"080006E2-5666-49C1-8786-3FD9FC77DC0A":1}}`
+		raw := `{"code":0,"msg":"","data":[{"rid":1,"room_src":"","room_src_max":"","room_name":"","hn":1,"nickname":"","avatar":"","cid1":1,"cname1":"","cid2":1,"cname2":"","cid3":1,"cname3":"","show_status":1,"show_time":0,"unuid":""}]}`
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -64,12 +64,12 @@ func TestLive(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	msg := `{"cid_type":2,"cid":2111,"limit":10,"offset":0}`
+	msg := `{"cid_type":1,"cid":1,"limit":10,"offset":0}`
 
 	if ret, err := live.do(ts.URL+liveUri, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
-		if ret.Code != 0 {
+		if ret.Code != 0 || len(ret.Data) != 1 {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}
