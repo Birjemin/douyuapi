@@ -26,10 +26,12 @@ go get github.com/birjemin/douyuapi
    - [获取点播二级分类列表](https://open.douyu.com/source/api/32)⚠️
    - [点播二级分类视频列表](https://open.douyu.com/source/api/33)⚠️
    - [点播UP主视频列表](https://open.douyu.com/source/api/34)⚠️
-   
    - [点播推荐池视频列表](https://open.douyu.com/source/api/35)⚠️
    - [点播拉流接口](https://open.douyu.com/source/api/36)⚠️
    - [点播视频下载接口](https://open.douyu.com/source/api/38)⚠️
+- 智能分类
+   - [智能分类列表](https://open.douyu.com/source/api/52)⚠️
+
 - [接入弹幕](https://open.douyu.com/source/api/66) ✅
 
 ### 使用方式
