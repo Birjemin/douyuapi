@@ -31,8 +31,11 @@ go get github.com/birjemin/douyuapi
    - [点播视频下载接口](https://open.douyu.com/source/api/38)⚠️
 - 智能分类
    - [智能分类列表](https://open.douyu.com/source/api/52)⚠️
-
-- [接入弹幕](https://open.douyu.com/source/api/66) ✅
+   - [智能分类房间详情](https://open.douyu.com/source/api/53)⚠️
+- [直播场次信息](https://open.douyu.com/source/api/54)⚠️
+- 房间弹幕（一期）
+   - [拉取弹幕](https://open.douyu.com/source/api/65) ✅
+   - [接入弹幕](https://open.douyu.com/source/api/66) ✅
 
 ### 使用方式
 
