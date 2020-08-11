@@ -50,12 +50,14 @@ func (p *AllLive) do(url, postJson, timestamp string) (*AllLiveResponse, error) 
 	if err := p.Client.HttpPostJson(url, postJson); err != nil {
 		return nil, err
 	} else {
-		var ret = new(AllLiveResponse)
-		if err := p.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(AllLiveResponse), new(ErrorResponse)
+		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
-		} else {
-			return ret, nil
 		}
-
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
+		}
+		return ret, nil
 	}
 }

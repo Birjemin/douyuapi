@@ -13,7 +13,7 @@ type TokenResponse struct {
 	Data struct {
 		Token  string `json:"token"`
 		Expire int    `json:"expire"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle
@@ -32,9 +32,13 @@ func (t *Token) do(url, timestamp string) (*TokenResponse, error) {
 	if err := t.Client.HttpGet(url, params); err != nil {
 		return nil, err
 	} else {
-		var ret = new(TokenResponse)
-		if err = t.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(TokenResponse), new(ErrorResponse)
+		if err = t.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
+		}
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
 		}
 		return ret, nil
 	}

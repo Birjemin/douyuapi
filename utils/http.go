@@ -11,8 +11,8 @@ import (
 
 // HttpClient
 type HttpClient struct {
-	Client      *http.Client
-	Response    *http.Response
+	Client   *http.Client
+	Response *http.Response
 }
 
 // HttpGet
@@ -50,13 +50,22 @@ func (c *HttpClient) doPostRequest(url, str, contentType string) (err error) {
 }
 
 // GetResponseJson
-func (c *HttpClient) GetResponseJson(response interface{}) error {
+func (c *HttpClient) GetResponseJson(response interface{}, errorResponse interface{}) error {
 	if c.Response.Body == nil {
 		return errors.New("http request response body is empty")
 	}
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
 	defer c.Response.Body.Close()
-	return json.NewDecoder(c.Response.Body).Decode(response)
+
+	var json = jsoniter.ConfigCompatibleWithStandardLibrary
+	if data, err := ioutil.ReadAll(c.Response.Body); err != nil {
+		return err
+	} else {
+		if err := json.Unmarshal(data, &response); err != nil {
+			return json.Unmarshal(data, &errorResponse)
+		} else {
+			return nil
+		}
+	}
 }
 
 // GetResponseByte

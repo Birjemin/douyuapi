@@ -22,27 +22,31 @@ type Cid3InfoResponse struct {
 }
 
 // Handle
-func (r *Cid3Info) Handle(timestamp string) (*Cid3InfoResponse, error) {
-	return r.do(DouYuDomain+cid3InfoUri, timestamp)
+func (p *Cid3Info) Handle(timestamp string) (*Cid3InfoResponse, error) {
+	return p.do(DouYuDomain+cid3InfoUri, timestamp)
 }
 
 // do
-func (r *Cid3Info) do(url, timestamp string) (*Cid3InfoResponse, error) {
+func (p *Cid3Info) do(url, timestamp string) (*Cid3InfoResponse, error) {
 	var params = map[string]string{
-		"aid":   r.AID,
+		"aid":   p.AID,
 		"time":  timestamp,
-		"token": r.Token,
+		"token": p.Token,
 	}
-	params["auth"] = GetSign(r.Secret, cid3InfoUri, params)
+	params["auth"] = GetSign(p.Secret, cid3InfoUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := r.Client.HttpPostJson(url, ""); err != nil {
+	if err := p.Client.HttpPostJson(url, ""); err != nil {
 		return nil, err
 	} else {
-		var ret = new(Cid3InfoResponse)
-		if err = r.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(Cid3InfoResponse), new(ErrorResponse)
+		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
+		}
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
 		}
 		return ret, nil
 	}

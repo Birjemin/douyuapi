@@ -32,7 +32,12 @@ func TestToken(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code": 0, "msg":"", "data": {"token":"ACCESS_TOKEN","expire":7200}}`
+		var raw string
+		if r.Form.Get("time") == "1200" {
+			raw = `{"code": 1001, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code": 0, "msg":"", "data": {"token":"ACCESS_TOKEN","expire":7200}}`
+		}
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -61,8 +66,16 @@ func TestToken(t *testing.T) {
 		if ret.Code != 0 {
 			t.Fatal("msg: " + ret.Msg)
 		}
-		if ret.Data.Token !=  "ACCESS_TOKEN" {
-			t.Fatal("get toke failed")
+		if ret.Data.Token != "ACCESS_TOKEN" {
+			t.Fatal("get token failed")
+		}
+	}
+
+	if ret, err := token.do(ts.URL+tokenUri, "1200"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 1001 {
+			t.Fatal("msg: " + ret.Msg)
 		}
 	}
 }

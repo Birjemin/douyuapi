@@ -36,27 +36,31 @@ type BatchRoomInfoResponse struct {
 }
 
 // Handle
-func (r *BatchRoomInfo) Handle(postJson, timestamp string) (*BatchRoomInfoResponse, error) {
-	return r.do(DouYuDomain+batchRoomInfoUri, postJson, timestamp)
+func (p *BatchRoomInfo) Handle(postJson, timestamp string) (*BatchRoomInfoResponse, error) {
+	return p.do(DouYuDomain+batchRoomInfoUri, postJson, timestamp)
 }
 
 // do
-func (r *BatchRoomInfo) do(url, postJson, timestamp string) (*BatchRoomInfoResponse, error) {
+func (p *BatchRoomInfo) do(url, postJson, timestamp string) (*BatchRoomInfoResponse, error) {
 	var params = map[string]string{
-		"aid":   r.AID,
+		"aid":   p.AID,
 		"time":  timestamp,
-		"token": r.Token,
+		"token": p.Token,
 	}
-	params["auth"] = GetSign(r.Secret, batchRoomInfoUri, params)
+	params["auth"] = GetSign(p.Secret, batchRoomInfoUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := r.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJson); err != nil {
 		return nil, err
 	} else {
-		var ret = new(BatchRoomInfoResponse)
-		if err = r.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(BatchRoomInfoResponse), new(ErrorResponse)
+		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
+		}
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
 		}
 		return ret, nil
 	}

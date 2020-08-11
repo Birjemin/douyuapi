@@ -57,11 +57,14 @@ func (p *RecompoolVodList) do(url, postJson, timestamp string) (*RecompoolVodLis
 	if err := p.Client.HttpPostJson(url, postJson); err != nil {
 		return nil, err
 	} else {
-		var ret = new(RecompoolVodListResponse)
-		if err := p.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(RecompoolVodListResponse), new(ErrorResponse)
+		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
-		} else {
-			return ret, nil
 		}
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
+		}
+		return ret, nil
 	}
 }

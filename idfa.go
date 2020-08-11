@@ -19,27 +19,31 @@ type IDFAResponse struct {
 }
 
 // Handle
-func (r *IDFAInfo) Handle(idfa, timestamp string) (*IDFAResponse, error) {
-	return r.do(DouYuDomain+idfaUri, idfa, timestamp)
+func (p *IDFAInfo) Handle(idfa, timestamp string) (*IDFAResponse, error) {
+	return p.do(DouYuDomain+idfaUri, idfa, timestamp)
 }
 
 // do
-func (r *IDFAInfo) do(url, idfa, timestamp string) (*IDFAResponse, error) {
+func (p *IDFAInfo) do(url, idfa, timestamp string) (*IDFAResponse, error) {
 	var params = map[string]string{
-		"aid":   r.AID,
+		"aid":   p.AID,
 		"time":  timestamp,
-		"token": r.Token,
+		"token": p.Token,
 	}
-	params["auth"] = GetSign(r.Secret, idfaUri, params)
+	params["auth"] = GetSign(p.Secret, idfaUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := r.Client.HttpPostJson(url, idfa); err != nil {
+	if err := p.Client.HttpPostJson(url, idfa); err != nil {
 		return nil, err
 	} else {
-		var ret = new(IDFAResponse)
-		if err = r.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(IDFAResponse), new(ErrorResponse)
+		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
+		}
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
 		}
 		return ret, nil
 	}

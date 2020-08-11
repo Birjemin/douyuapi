@@ -19,26 +19,30 @@ type OuterChatResponse struct {
 }
 
 // Handle
-func (t *OuterChat) Handle(chat, timestamp string) (*OuterChatResponse, error) {
-	return t.do(DouYuDomain+outerChatUri, chat, timestamp)
+func (p *OuterChat) Handle(chat, timestamp string) (*OuterChatResponse, error) {
+	return p.do(DouYuDomain+outerChatUri, chat, timestamp)
 }
 
 // do
-func (t *OuterChat) do(url, chat, timestamp string) (*OuterChatResponse, error) {
+func (p *OuterChat) do(url, chat, timestamp string) (*OuterChatResponse, error) {
 	var params = map[string]string{
-		"aid":   t.AID,
+		"aid":   p.AID,
 		"time":  timestamp,
-		"token": t.Token,
+		"token": p.Token,
 	}
-	params["auth"] = GetSign(t.Secret, outerChatUri, params)
+	params["auth"] = GetSign(p.Secret, outerChatUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
-	if err := t.Client.HttpPostJson(url, chat); err != nil {
+	if err := p.Client.HttpPostJson(url, chat); err != nil {
 		return nil, err
 	} else {
-		var ret = new(OuterChatResponse)
-		if err = t.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(OuterChatResponse), new(ErrorResponse)
+		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
+		}
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
 		}
 		return ret, nil
 	}

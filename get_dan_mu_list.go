@@ -30,26 +30,30 @@ type GetDanMuListResponse struct {
 }
 
 // Handle
-func (t *GetDanMuList) Handle(postJson, timestamp string) (*GetDanMuListResponse, error) {
-	return t.do(DouYuDomain+getDanMuListUri, postJson, timestamp)
+func (p *GetDanMuList) Handle(postJson, timestamp string) (*GetDanMuListResponse, error) {
+	return p.do(DouYuDomain+getDanMuListUri, postJson, timestamp)
 }
 
 // do
-func (t *GetDanMuList) do(url, postJson, timestamp string) (*GetDanMuListResponse, error) {
+func (p *GetDanMuList) do(url, postJson, timestamp string) (*GetDanMuListResponse, error) {
 	var params = map[string]string{
-		"aid":   t.AID,
+		"aid":   p.AID,
 		"time":  timestamp,
-		"token": t.Token,
+		"token": p.Token,
 	}
-	params["auth"] = GetSign(t.Secret, getDanMuListUri, params)
+	params["auth"] = GetSign(p.Secret, getDanMuListUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
-	if err := t.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJson); err != nil {
 		return nil, err
 	} else {
-		var ret = new(GetDanMuListResponse)
-		if err = t.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(GetDanMuListResponse), new(ErrorResponse)
+		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
+		}
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
 		}
 		return ret, nil
 	}

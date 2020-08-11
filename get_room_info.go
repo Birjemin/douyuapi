@@ -39,27 +39,31 @@ type RoomInfoResponse struct {
 }
 
 // Handle
-func (r *RoomInfo) Handle(postJson, timestamp string) (*RoomInfoResponse, error) {
-	return r.do(DouYuDomain+roomInfoUri, postJson, timestamp)
+func (p *RoomInfo) Handle(postJson, timestamp string) (*RoomInfoResponse, error) {
+	return p.do(DouYuDomain+roomInfoUri, postJson, timestamp)
 }
 
 // do
-func (r *RoomInfo) do(url, postJson, timestamp string) (*RoomInfoResponse, error) {
+func (p *RoomInfo) do(url, postJson, timestamp string) (*RoomInfoResponse, error) {
 	var params = map[string]string{
-		"aid":   r.AID,
+		"aid":   p.AID,
 		"time":  timestamp,
-		"token": r.Token,
+		"token": p.Token,
 	}
-	params["auth"] = GetSign(r.Secret, roomInfoUri, params)
+	params["auth"] = GetSign(p.Secret, roomInfoUri, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := r.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJson); err != nil {
 		return nil, err
 	} else {
-		var ret = new(RoomInfoResponse)
-		if err = r.Client.GetResponseJson(ret); err != nil {
+		var ret, errResp = new(RoomInfoResponse), new(ErrorResponse)
+		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
 			return nil, err
+		}
+		if errResp.Code != 0 {
+			ret.Code = errResp.Code
+			ret.Msg = errResp.Msg
 		}
 		return ret, nil
 	}
