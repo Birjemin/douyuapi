@@ -39,7 +39,13 @@ func TestGetAudioPlay(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":[{"rid":1,"uid":1,"rtmpCdn":"","rtmpLive":"","rtmpURL":1}]}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code":0,"msg":"","data":[{"rid":1,"uid":1,"rtmpCdn":"","rtmpLive":"","rtmpURL":1}]}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -70,6 +76,14 @@ func TestGetAudioPlay(t *testing.T) {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || len(ret.Data) != 1 {
+			t.Error(errors.New("msg: " + ret.Msg))
+		}
+	}
+
+	if ret, err := allLive.do(ts.URL+getAudioPlayUri, msg, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}

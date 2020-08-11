@@ -40,7 +40,13 @@ func TestOuterChat(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code": 0, "msg":"ok", "data": ""}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code": 0, "msg":"ok", "data": ""}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -71,6 +77,14 @@ func TestOuterChat(t *testing.T) {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
+			t.Error(errors.New("msg: " + ret.Msg))
+		}
+	}
+
+	if ret, err := outChat.do(ts.URL+outerChatUri, chat, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}

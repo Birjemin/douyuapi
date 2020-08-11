@@ -59,7 +59,7 @@ func TestGetJson(t *testing.T) {
 		Msg  string
 	}
 	var resp = new(JsonResponse)
-	if err := c.GetResponseJson(resp); err != nil {
+	if err := c.GetResponseJson(resp, resp); err != nil {
 		t.Fatal(err)
 	}
 	ast.Equal(1, resp.Code)
@@ -119,7 +119,7 @@ func TestPostJson(t *testing.T) {
 		}
 		var resp = new(JsonResponse)
 
-		if err = c.GetResponseJson(resp); err != nil {
+		if err = c.GetResponseJson(resp, resp); err != nil {
 			t.Fatal(err)
 		}
 		ast.Equal(1, resp.Code)

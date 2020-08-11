@@ -40,7 +40,13 @@ func TestIDFA(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code": 0, "msg":"ok", "data": {"080006E2-5666-49C1-8786-3FD9FC77DC0A":1}}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code": 0, "msg":"ok", "data": {"080006E2-5666-49C1-8786-3FD9FC77DC0A":1}}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -75,6 +81,14 @@ func TestIDFA(t *testing.T) {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
+			t.Error(errors.New("msg: " + ret.Msg))
+		}
+	}
+
+	if ret, err := idfaInfo.do(ts.URL+idfaUri, chat, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}

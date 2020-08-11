@@ -18,7 +18,7 @@ type VideoCateListResponse struct {
 	Data []struct {
 		Cid2     int    `json:"cid2"`
 		Cname2   string `json:"cname2"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle

@@ -38,7 +38,13 @@ func TestGetPlay(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":{"rid":288016,"room_name":"赛事直播间","live_url":"http+flv流地址","hls_url":"m3u8流地址","mix_url":"","rate_switch":0,"show_status":1,"hls_mul":{},"flv_mul":{}}}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code":0,"msg":"","data":{"rid":288016,"room_name":"赛事直播间","live_url":"http+flv流地址","hls_url":"m3u8流地址","mix_url":"","rate_switch":0,"show_status":1,"hls_mul":{},"flv_mul":{}}}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -71,6 +77,14 @@ func TestGetPlay(t *testing.T) {
 		}
 		if ret.Data.RID != 288016 {
 			t.Fatal("get play failed")
+		}
+	}
+
+	if ret, err := play.do(ts.URL+playUri, `{"rid": 288016}`, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
+			t.Fatal("msg: " + ret.Msg)
 		}
 	}
 }

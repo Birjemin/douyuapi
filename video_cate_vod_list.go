@@ -35,7 +35,7 @@ type VideoCateVodListResponse struct {
 		VideoUrl           string `json:"video_url"`
 		H5VideoUrl         string `json:"h5_video_url"`
 		ShareUrl           string `json:"share_url"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle

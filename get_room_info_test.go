@@ -38,7 +38,13 @@ func TestGetRoomInfo(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":{"rid":688,"room_src":"room_src","room_src_max":"room_src_max","room_name":"房间","hn":6030,"nickname":"test","avatar":"a7e997_big.jpg","cid1":4,"cname1":"体育频道","cid2":1,"cname2":"英雄联盟","cid3":24,"cname3":"test","show_status":1,"show_time":1596358821,"unuid":"","room_notice":"公告信息","is_vertical":0,"fans":0}}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code":0,"msg":"","data":{"rid":688,"room_src":"room_src","room_src_max":"room_src_max","room_name":"房间","hn":6030,"nickname":"test","avatar":"a7e997_big.jpg","cid1":4,"cname1":"体育频道","cid2":1,"cname2":"英雄联盟","cid3":24,"cname3":"test","show_status":1,"show_time":1596358821,"unuid":"","room_notice":"公告信息","is_vertical":0,"fans":0}}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -71,6 +77,14 @@ func TestGetRoomInfo(t *testing.T) {
 		}
 		if ret.Data.RID != 688 {
 			t.Fatal("err ret")
+		}
+	}
+
+	if ret, err := room.do(ts.URL+roomInfoUri, `{"rid": 288016}`, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
+			t.Fatal("msg: " + ret.Msg)
 		}
 	}
 }

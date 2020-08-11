@@ -39,7 +39,13 @@ func TestAllLive(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":[{"rid":1,"room_src":"","room_src_max":"","room_name":"","hn":1,"nickname":"","avatar":"","cid1":1,"cname1":"","cid2":1,"cname2":"","cid3":1,"cname3":"","show_status":1,"show_time":0,"unuid":""}]}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code":0,"msg":"","data":[{"rid":1,"room_src":"","room_src_max":"","room_name":"","hn":1,"nickname":"","avatar":"","cid1":1,"cname1":"","cid2":1,"cname2":"","cid3":1,"cname3":"","show_status":1,"show_time":0,"unuid":""}]}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -70,6 +76,14 @@ func TestAllLive(t *testing.T) {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || len(ret.Data) != 1 {
+			t.Error(errors.New("msg: " + ret.Msg))
+		}
+	}
+
+	if ret, err := allLive.do(ts.URL+allLiveUri, msg, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}

@@ -32,7 +32,13 @@ func TestGetCid3Info(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":[{"cid3":4,"name3":"688"}]}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code":0,"msg":"","data":[{"cid3":4,"name3":"688"}]}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -65,6 +71,14 @@ func TestGetCid3Info(t *testing.T) {
 		}
 		if (ret.Data)[0].CID3 !=  4 {
 			t.Error(errors.New("err ret"))
+		}
+	}
+
+	if ret, err := cid3Info.do(ts.URL+cid3InfoUri, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
+			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}
 }

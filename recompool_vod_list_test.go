@@ -39,7 +39,12 @@ func TestRecompoolVodList(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":[{"hash_id":"3rob7jb55Dj7gkZl","cid1":260}]}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code":0,"msg":"","data":[{"hash_id":"3rob7jb55Dj7gkZl","cid1":260}]}`
+		}
 
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
@@ -70,6 +75,14 @@ func TestRecompoolVodList(t *testing.T) {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || (ret.Data)[0].HashID != "3rob7jb55Dj7gkZl" {
+			t.Error(errors.New("msg: " + ret.Msg))
+		}
+	}
+
+	if ret, err := list.do(ts.URL+recompoolVodListUri, msg, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}

@@ -21,7 +21,7 @@ type GetAudioPlayResponse struct {
 		RtmpCdn  string `json:"rtmpCdn"`
 		RtmpLive string `json:"rtmpLive"`
 		RtmpURL  string `json:"rtmpURL"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle

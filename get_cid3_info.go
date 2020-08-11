@@ -18,7 +18,7 @@ type Cid3InfoResponse struct {
 	Data []struct {
 		CID3   int    `json:"cid3"`
 		CName3 string `json:"cname3"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle

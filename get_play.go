@@ -25,7 +25,7 @@ type PlayResponse struct {
 		ShowStatus int         `json:"show_status"`
 		HlsMul     interface{} `json:"hls_mul"`
 		FlvMul     interface{} `json:"flv_mul"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle

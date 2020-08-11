@@ -17,7 +17,7 @@ type VodDownUrlResponse struct {
 	ErrorResponse
 	Data struct {
 		Url string `json:"url"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle

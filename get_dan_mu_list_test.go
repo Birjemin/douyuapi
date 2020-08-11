@@ -39,7 +39,13 @@ func TestGetDanMuList(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code": 0, "msg":"ok", "data":{"list":[{"room_id":1,"uid":1,"nickname":"","content":"","timestamp":1,"ip":"::0"}],"cnt":1,"page_context":12}}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code": 0, "msg":"ok", "data":{"list":[{"room_id":1,"uid":1,"nickname":"","content":"","timestamp":1,"ip":"::0"}],"cnt":1,"page_context":12}}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -69,6 +75,14 @@ func TestGetDanMuList(t *testing.T) {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || (ret.Data.List)[0].UID != 1 {
+			t.Error(errors.New("msg: " + ret.Msg))
+		}
+	}
+
+	if ret, err := list.do(ts.URL+getDanMuListUri, msg, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}

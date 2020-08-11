@@ -19,7 +19,7 @@ type Cid2InfoResponse struct {
 		CID2   int    `json:"cid2"`
 		CName2 string `json:"cname2"`
 		PicUrl string `json:"pic_url"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle

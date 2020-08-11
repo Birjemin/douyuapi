@@ -19,7 +19,7 @@ type BatchRoomShowStreamResponse struct {
 		RtmpID int    `json:"rtmp_id"`
 		RID    int    `json:"rid"`
 		Nfv    string `json:"nfv"`
-	} `json:"data;omitempty"`
+	} `json:"data"`
 }
 
 // Handle

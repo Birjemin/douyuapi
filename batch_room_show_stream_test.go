@@ -38,7 +38,13 @@ func TestBatchRoomShowStream(t *testing.T) {
 
 		w.WriteHeader(http.StatusOK)
 
-		raw := `{"code":0,"msg":"","data":{"rid":688,"rtmp_id":0}}`
+		var raw string
+		if r.Form.Get("time") == "100" {
+			raw = `{"code": 100, "msg":"", "data": ""}`
+		} else {
+			raw = `{"code":0,"msg":"","data":{"rid":688,"rtmp_id":0}}`
+		}
+
 		if _, err := w.Write([]byte(raw)); err != nil {
 			t.Fatal(err)
 		}
@@ -71,6 +77,14 @@ func TestBatchRoomShowStream(t *testing.T) {
 		}
 		if (ret.Data).RID != 688 {
 			t.Fatal("err ret")
+		}
+	}
+
+	if ret, err := list.do(ts.URL+batchRoomShowStreamUri, `{"rids": [288016]}`, "100"); err != nil {
+		t.Error(err)
+	} else {
+		if ret.Code != 100 {
+			t.Fatal("msg: " + ret.Msg)
 		}
 	}
 }
