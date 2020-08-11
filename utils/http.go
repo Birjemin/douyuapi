@@ -15,6 +15,8 @@ type HttpClient struct {
 	Response *http.Response
 }
 
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
+
 // HttpGet
 func (c *HttpClient) HttpGet(url string, params map[string]string) (err error) {
 	var req *http.Request
@@ -28,7 +30,6 @@ func (c *HttpClient) HttpGet(url string, params map[string]string) (err error) {
 // HttpPost
 func (c *HttpClient) HttpPost(url string, params map[string]string) error {
 	var query = HttpQueryBuild(params)
-
 	return c.doPostRequest(url, query, "application/x-www-form-urlencoded;charset=UTF-8")
 }
 
@@ -56,8 +57,7 @@ func (c *HttpClient) GetResponseJson(response interface{}, errorResponse interfa
 	}
 	defer c.Response.Body.Close()
 
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	if data, err := ioutil.ReadAll(c.Response.Body); err != nil {
+	if data, err := c.GetResponseByte(); err != nil {
 		return err
 	} else {
 		if err := json.Unmarshal(data, &response); err != nil {
