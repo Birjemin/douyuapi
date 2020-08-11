@@ -19,7 +19,7 @@ type ThirdVodStreamListResponse struct {
 		Timestamp int    `json:"timestamp"`
 		Normal    string `json:"normal"`
 		High      string `json:"high"`
-	} `json:"data"`
+	} `json:"data;omitempty"`
 }
 
 // Handle

@@ -15,7 +15,7 @@ type OuterChat struct {
 // OuterChatResponse
 type OuterChatResponse struct {
 	ErrorResponse
-	Data string `json:"data"`
+	Data string `json:"data;omitempty"`
 }
 
 // Handle

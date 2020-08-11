@@ -13,7 +13,7 @@ type TokenResponse struct {
 	Data struct {
 		Token  string `json:"token"`
 		Expire int    `json:"expire"`
-	} `json:"data"`
+	} `json:"data;omitempty"`
 }
 
 // Handle

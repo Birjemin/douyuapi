@@ -26,7 +26,7 @@ type GetDanMuListResponse struct {
 		} `json:"list"`
 		Cnt         int `json:"cnt"`
 		PageContext int `json:"page_context"`
-	} `json:"data"`
+	} `json:"data;omitempty"`
 }
 
 // Handle

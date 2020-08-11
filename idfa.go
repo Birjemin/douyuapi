@@ -15,7 +15,7 @@ type IDFAInfo struct {
 // IDFAResponse
 type IDFAResponse struct {
 	ErrorResponse
-	Data map[string]int `json:"data"`
+	Data map[string]int `json:"data;omitempty"`
 }
 
 // Handle

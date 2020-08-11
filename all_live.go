@@ -28,7 +28,7 @@ type AllLiveResponse struct {
 		Cname2   string `json:"cname2"`
 		Cid3     int    `json:"cid3"`
 		Cname3   string `json:"cname3"`
-	} `json:"data"`
+	} `json:"data;omitempty"`
 }
 
 // Handle

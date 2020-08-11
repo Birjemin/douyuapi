@@ -32,7 +32,7 @@ type BatchRoomInfoResponse struct {
 		ShowStatus int    `json:"show_status"`
 		RoomNotice string `json:"room_notice"`
 		IsVertical int    `json:"is_vertical"`
-	} `json:"data"`
+	} `json:"data;omitempty"`
 }
 
 // Handle

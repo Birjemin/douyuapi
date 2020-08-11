@@ -23,7 +23,7 @@ type SmartCateListResponse struct {
 		Tag2Name  string `json:"tag2_name"`
 		Tag2Icon  string `json:"tag2_icon"`
 		RoomCount int    `json:"room_count"`
-	} `json:"data"`
+	} `json:"data;omitempty"`
 }
 
 // Handle

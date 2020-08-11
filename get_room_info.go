@@ -35,7 +35,7 @@ type RoomInfoResponse struct {
 		RoomNotice string `json:"room_notice"`
 		IsVertical int    `json:"is_vertical"`
 		Fans       int    `json:"fans"`
-	} `json:"data"`
+	} `json:"data;omitempty"`
 }
 
 // Handle
