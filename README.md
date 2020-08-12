@@ -1,5 +1,8 @@
 ## 斗鱼-api
 
+[![Build Status](https://travis-ci.com/Birjemin/ls-pro.svg?branch=master)](http://travis-ci.org/mrb/hob) [![Go Report Card](https://goreportcard.com/badge/github.com/birjemin/ls-pro)](https://goreportcard.com/report/github.com/birjemin/ls-pro) [![codecov](https://codecov.io/gh/Birjemin/ls-pro/branch/master/graph/badge.svg)](https://codecov.io/gh/Birjemin/ls-pro)
+
+
 [开发者中心](https://open.douyu.com/source)
 
 ### 引入方式
@@ -40,7 +43,53 @@ go get github.com/birjemin/douyuapi
 
 ### 使用方式
 
-- 参见test和参考文档
+- 示例
+
+```golang
+    httpClient := &utils.HttpClient{
+		Client: &http.Client{
+			Timeout: 5 * time.Second,
+		},
+	}
+
+	token := &Token{
+		BaseClient: BaseClient{
+			Client: httpClient,
+			Secret: "test-secret",
+			AID:    "test-aid",
+		},
+	}
+
+	timestamp := cast.ToString(utils.GetCurrTime())
+	if ret, err := token.Handle(timestamp); err != nil {
+		// handle err
+	} else {
+		if ret.Code != 0 {
+			// handle err
+		}
+		// get ret.Data.Token
+	}
+	
+    live := &Live{
+        BaseClient: BaseClient{
+            Client: httpClient,
+            Secret: "test-secret",
+            AID:    "test-aid",
+        },
+        Token: "test-token",
+    }
+
+    msg := `{"cid_type":1,"cid":1,"limit":10,"offset":0}`
+
+    if ret, err := live.do(ts.URL+liveURI, msg, cast.ToString(timestamp)); err != nil {
+        // handle err
+    } else {
+        if ret.Code != 0 {
+            // handle err
+        }
+        // handle
+    }
+```
 
 ### 备注
 后续会补足新接口
