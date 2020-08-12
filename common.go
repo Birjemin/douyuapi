@@ -1,30 +1,30 @@
 package douyuapi
 
 import (
-	"errors"
 	"fmt"
 	"github.com/birjemin/douyuapi/utils"
 )
 
+// DouYuDomain ...
 const DouYuDomain = "https://openapi.douyu.com"
 
-// base client
+// BaseClient base client
 type BaseClient struct {
 	Client *utils.HttpClient
 	Secret string
 	AID    string
 }
 
-// Response
+// ErrorResponse ...
 type ErrorResponse struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 }
 
-// GetErrResponse
+// GetErrResponse ...
 func (e *ErrorResponse) GetErrResponse() error {
 	if e.Code != 0 {
-		return errors.New(fmt.Sprintf("%d|%s", e.Code, e.Msg))
+		return fmt.Errorf("%d|%s", e.Code, e.Msg)
 	}
 	return nil
 }

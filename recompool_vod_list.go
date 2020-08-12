@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const recompoolVodListUri = "/api/thirdPart/video/recompoolVodList"
+const recompoolVodListURI = "/api/thirdPart/video/recompoolVodList"
 
-// RecompoolVodList
+// RecompoolVodList ...
 type RecompoolVodList struct {
 	BaseClient
 	Token string
 }
 
-// RecompoolVodListResponse
+// RecompoolVodListResponse ...
 type RecompoolVodListResponse struct {
 	ErrorResponse
 	Data []struct {
@@ -32,39 +32,38 @@ type RecompoolVodListResponse struct {
 		VideoCollectNum    int    `json:"video_collect_num"`
 		VideoUpNum         int    `json:"video_up_num"`
 		BarrageNum         int    `json:"barrage_num"`
-		VideoUrl           string `json:"video_url"`
-		H5VideoUrl         string `json:"h5_video_url"`
-		ShareUrl           string `json:"share_url"`
+		VideoURL           string `json:"video_url"`
+		H5VideoURL         string `json:"h5_video_url"`
+		ShareURL           string `json:"share_url"`
 	} `json:"data"`
 }
 
-// Handle
-func (p *RecompoolVodList) Handle(postJson, timestamp string) (*RecompoolVodListResponse, error) {
-	return p.do(DouYuDomain+recompoolVodListUri, postJson, timestamp)
+// Handle ...
+func (p *RecompoolVodList) Handle(postJSON, timestamp string) (*RecompoolVodListResponse, error) {
+	return p.do(DouYuDomain+recompoolVodListURI, postJSON, timestamp)
 }
 
 // do
-func (p *RecompoolVodList) do(url, postJson, timestamp string) (*RecompoolVodListResponse, error) {
+func (p *RecompoolVodList) do(url, postJSON, timestamp string) (*RecompoolVodListResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, recompoolVodListUri, params)
+	params["auth"] = GetSign(p.Secret, recompoolVodListURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(RecompoolVodListResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(RecompoolVodListResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

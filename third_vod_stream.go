@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const thirdVodStreamUri = "/api/thirdPart/video/thirdVodStream"
+const thirdVodStreamURI = "/api/thirdPart/video/thirdVodStream"
 
-// ThirdVodStreamList
+// ThirdVodStreamList ...
 type ThirdVodStreamList struct {
 	BaseClient
 	Token string
 }
 
-// ThirdVodStreamListResponse
+// ThirdVodStreamListResponse ...
 type ThirdVodStreamListResponse struct {
 	ErrorResponse
 	Data struct {
@@ -22,33 +22,32 @@ type ThirdVodStreamListResponse struct {
 	} `json:"data"`
 }
 
-// Handle
-func (p *ThirdVodStreamList) Handle(postJson, timestamp string) (*ThirdVodStreamListResponse, error) {
-	return p.do(DouYuDomain+thirdVodStreamUri, postJson, timestamp)
+// Handle ...
+func (p *ThirdVodStreamList) Handle(postJSON, timestamp string) (*ThirdVodStreamListResponse, error) {
+	return p.do(DouYuDomain+thirdVodStreamURI, postJSON, timestamp)
 }
 
 // do
-func (p *ThirdVodStreamList) do(url, postJson, timestamp string) (*ThirdVodStreamListResponse, error) {
+func (p *ThirdVodStreamList) do(url, postJSON, timestamp string) (*ThirdVodStreamListResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, thirdVodStreamUri, params)
+	params["auth"] = GetSign(p.Secret, thirdVodStreamURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(ThirdVodStreamListResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(ThirdVodStreamListResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

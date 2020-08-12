@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const batchRoomInfoUri = "/api/thirdPart/batchGetRoomInfo"
+const batchRoomInfoURI = "/api/thirdPart/batchGetRoomInfo"
 
-// BatchRoomInfo
+// BatchRoomInfo ...
 type BatchRoomInfo struct {
 	BaseClient
 	Token string
 }
 
-// BatchRoomInfoResponse
+// BatchRoomInfoResponse ...
 type BatchRoomInfoResponse struct {
 	ErrorResponse
 	Data []struct {
@@ -35,33 +35,32 @@ type BatchRoomInfoResponse struct {
 	} `json:"data"`
 }
 
-// Handle
-func (p *BatchRoomInfo) Handle(postJson, timestamp string) (*BatchRoomInfoResponse, error) {
-	return p.do(DouYuDomain+batchRoomInfoUri, postJson, timestamp)
+// Handle ...
+func (p *BatchRoomInfo) Handle(postJSON, timestamp string) (*BatchRoomInfoResponse, error) {
+	return p.do(DouYuDomain+batchRoomInfoURI, postJSON, timestamp)
 }
 
 // do
-func (p *BatchRoomInfo) do(url, postJson, timestamp string) (*BatchRoomInfoResponse, error) {
+func (p *BatchRoomInfo) do(url, postJSON, timestamp string) (*BatchRoomInfoResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, batchRoomInfoUri, params)
+	params["auth"] = GetSign(p.Secret, batchRoomInfoURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(BatchRoomInfoResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(BatchRoomInfoResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

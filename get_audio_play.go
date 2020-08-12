@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const getAudioPlayUri = "/api/thirdPart/getAudioPlay"
+const getAudioPlayURI = "/api/thirdPart/getAudioPlay"
 
-// GetAudioPlay
+// GetAudioPlay ...
 type GetAudioPlay struct {
 	BaseClient
 	Token string
 }
 
-// GetAudioPlayResponse
+// GetAudioPlayResponse ...
 type GetAudioPlayResponse struct {
 	ErrorResponse
 	Data []struct {
@@ -24,33 +24,32 @@ type GetAudioPlayResponse struct {
 	} `json:"data"`
 }
 
-// Handle
-func (p *GetAudioPlay) Handle(postJson, timestamp string) (*GetAudioPlayResponse, error) {
-	return p.do(DouYuDomain+getAudioPlayUri, postJson, timestamp)
+// Handle ...
+func (p *GetAudioPlay) Handle(postJSON, timestamp string) (*GetAudioPlayResponse, error) {
+	return p.do(DouYuDomain+getAudioPlayURI, postJSON, timestamp)
 }
 
 // do
-func (p *GetAudioPlay) do(url, postJson, timestamp string) (*GetAudioPlayResponse, error) {
+func (p *GetAudioPlay) do(url, postJSON, timestamp string) (*GetAudioPlayResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, getAudioPlayUri, params)
+	params["auth"] = GetSign(p.Secret, getAudioPlayURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(GetAudioPlayResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(GetAudioPlayResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

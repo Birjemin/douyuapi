@@ -16,8 +16,8 @@ func TestRecompoolVodList(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != recompoolVodListUri {
-			t.Fatalf("path is invalid: %s, %s'", recompoolVodListUri, path)
+		if path != recompoolVodListURI {
+			t.Fatalf("path is invalid: %s, %s'", recompoolVodListURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -71,7 +71,7 @@ func TestRecompoolVodList(t *testing.T) {
 	timestamp := utils.GetCurrTime()
 	msg := `{"offset":0,"limit":10"}`
 
-	if ret, err := list.do(ts.URL+recompoolVodListUri, msg, cast.ToString(timestamp)); err != nil {
+	if ret, err := list.do(ts.URL+recompoolVodListURI, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || (ret.Data)[0].HashID != "3rob7jb55Dj7gkZl" {
@@ -79,7 +79,7 @@ func TestRecompoolVodList(t *testing.T) {
 		}
 	}
 
-	if ret, err := list.do(ts.URL+recompoolVodListUri, msg, "100"); err != nil {
+	if ret, err := list.do(ts.URL+recompoolVodListURI, msg, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

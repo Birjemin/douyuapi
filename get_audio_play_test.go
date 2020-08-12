@@ -16,8 +16,8 @@ func TestGetAudioPlay(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != getAudioPlayUri {
-			t.Fatalf("path is invalid: %s, %s'", getAudioPlayUri, path)
+		if path != getAudioPlayURI {
+			t.Fatalf("path is invalid: %s, %s'", getAudioPlayURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -72,7 +72,7 @@ func TestGetAudioPlay(t *testing.T) {
 
 	msg := `{"rid":1}`
 
-	if ret, err := allLive.do(ts.URL+getAudioPlayUri, msg, cast.ToString(timestamp)); err != nil {
+	if ret, err := allLive.do(ts.URL+getAudioPlayURI, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || len(ret.Data) != 1 {
@@ -80,7 +80,7 @@ func TestGetAudioPlay(t *testing.T) {
 		}
 	}
 
-	if ret, err := allLive.do(ts.URL+getAudioPlayUri, msg, "100"); err != nil {
+	if ret, err := allLive.do(ts.URL+getAudioPlayURI, msg, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

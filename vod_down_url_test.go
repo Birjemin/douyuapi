@@ -11,13 +11,13 @@ import (
 	"time"
 )
 
-// TestVodDownUrl
-func TestVodDownUrl(t *testing.T) {
+// TestVodDownURL
+func TestVodDownURL(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != vodDownUrlUri {
-			t.Fatalf("path is invalid: %s, %s'", vodDownUrlUri, path)
+		if path != vodDownURLURI {
+			t.Fatalf("path is invalid: %s, %s'", vodDownURLURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -59,7 +59,7 @@ func TestVodDownUrl(t *testing.T) {
 		},
 	}
 
-	list := &VodDownUrl{
+	list := &VodDownURL{
 		BaseClient: BaseClient{
 			Client: httpClient,
 			Secret: "test-secret",
@@ -71,15 +71,15 @@ func TestVodDownUrl(t *testing.T) {
 	timestamp := utils.GetCurrTime()
 	msg := `{"vid":"121","ct":"web_flash"}`
 
-	if ret, err := list.do(ts.URL+vodDownUrlUri, msg, cast.ToString(timestamp)); err != nil {
+	if ret, err := list.do(ts.URL+vodDownURLURI, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
-		if ret.Code != 0 || (ret.Data).Url != "url" {
+		if ret.Code != 0 || (ret.Data).URL != "url" {
 			t.Error(errors.New("msg: " + ret.Msg))
 		}
 	}
 
-	if ret, err := list.do(ts.URL+vodDownUrlUri, msg, "100"); err != nil {
+	if ret, err := list.do(ts.URL+vodDownURLURI, msg, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

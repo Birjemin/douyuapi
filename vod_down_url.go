@@ -4,49 +4,48 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const vodDownUrlUri = "/api/thirdPart/video/vodDownUrl"
+const vodDownURLURI = "/api/thirdPart/video/vodDownURL"
 
-// VodDownUrl
-type VodDownUrl struct {
+// VodDownURL ...
+type VodDownURL struct {
 	BaseClient
 	Token string
 }
 
-// VodDownUrlResponse
-type VodDownUrlResponse struct {
+// VodDownURLResponse ...
+type VodDownURLResponse struct {
 	ErrorResponse
 	Data struct {
-		Url string `json:"url"`
+		URL string `json:"url"`
 	} `json:"data"`
 }
 
-// Handle
-func (p *VodDownUrl) Handle(postJson, timestamp string) (*VodDownUrlResponse, error) {
-	return p.do(DouYuDomain+vodDownUrlUri, postJson, timestamp)
+// Handle ...
+func (p *VodDownURL) Handle(postJSON, timestamp string) (*VodDownURLResponse, error) {
+	return p.do(DouYuDomain+vodDownURLURI, postJSON, timestamp)
 }
 
 // do
-func (p *VodDownUrl) do(url, postJson, timestamp string) (*VodDownUrlResponse, error) {
+func (p *VodDownURL) do(url, postJSON, timestamp string) (*VodDownURLResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, vodDownUrlUri, params)
+	params["auth"] = GetSign(p.Secret, vodDownURLURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(VodDownUrlResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(VodDownURLResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

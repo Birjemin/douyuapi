@@ -16,8 +16,8 @@ func TestThirdVodStreamList(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != thirdVodStreamUri {
-			t.Fatalf("path is invalid: %s, %s'", thirdVodStreamUri, path)
+		if path != thirdVodStreamURI {
+			t.Fatalf("path is invalid: %s, %s'", thirdVodStreamURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -71,7 +71,7 @@ func TestThirdVodStreamList(t *testing.T) {
 	timestamp := utils.GetCurrTime()
 	msg := `{"vid":"121","ct":"web_flash"}`
 
-	if ret, err := list.do(ts.URL+thirdVodStreamUri, msg, cast.ToString(timestamp)); err != nil {
+	if ret, err := list.do(ts.URL+thirdVodStreamURI, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || (ret.Data).Timestamp != 7200 {
@@ -79,7 +79,7 @@ func TestThirdVodStreamList(t *testing.T) {
 		}
 	}
 
-	if ret, err := list.do(ts.URL+thirdVodStreamUri, msg, "100"); err != nil {
+	if ret, err := list.do(ts.URL+thirdVodStreamURI, msg, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

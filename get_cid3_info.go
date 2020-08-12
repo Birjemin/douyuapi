@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const cid3InfoUri = "/api/thirdPart/getCid3Info"
+const cid3InfoURI = "/api/thirdPart/getCid3Info"
 
-// Cid3Info
+// Cid3Info ...
 type Cid3Info struct {
 	BaseClient
 	Token string
 }
 
-// Cid3InfoResponse
+// Cid3InfoResponse ...
 type Cid3InfoResponse struct {
 	ErrorResponse
 	Data []struct {
@@ -21,9 +21,9 @@ type Cid3InfoResponse struct {
 	} `json:"data"`
 }
 
-// Handle
+// Handle ...
 func (p *Cid3Info) Handle(timestamp string) (*Cid3InfoResponse, error) {
-	return p.do(DouYuDomain+cid3InfoUri, timestamp)
+	return p.do(DouYuDomain+cid3InfoURI, timestamp)
 }
 
 // do
@@ -33,21 +33,20 @@ func (p *Cid3Info) do(url, timestamp string) (*Cid3InfoResponse, error) {
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, cid3InfoUri, params)
+	params["auth"] = GetSign(p.Secret, cid3InfoURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
 	if err := p.Client.HttpPostJson(url, ""); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(Cid3InfoResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(Cid3InfoResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

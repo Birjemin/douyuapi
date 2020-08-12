@@ -16,8 +16,8 @@ func TestVideoUperVodList(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != videoUperVodListUri {
-			t.Fatalf("path is invalid: %s, %s'", videoUperVodListUri, path)
+		if path != videoUperVodListURI {
+			t.Fatalf("path is invalid: %s, %s'", videoUperVodListURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -71,7 +71,7 @@ func TestVideoUperVodList(t *testing.T) {
 	timestamp := utils.GetCurrTime()
 	msg := `{"offset":0,"limit":10}`
 
-	if ret, err := video.do(ts.URL+videoUperVodListUri, msg, cast.ToString(timestamp)); err != nil {
+	if ret, err := video.do(ts.URL+videoUperVodListURI, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || (ret.Data)[0].HashID != "3rob7jb55Dj7gkZl" {
@@ -79,7 +79,7 @@ func TestVideoUperVodList(t *testing.T) {
 		}
 	}
 
-	if ret, err := video.do(ts.URL+videoUperVodListUri, msg, "100"); err != nil {
+	if ret, err := video.do(ts.URL+videoUperVodListURI, msg, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

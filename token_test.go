@@ -14,8 +14,8 @@ func TestToken(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != tokenUri {
-			t.Fatalf("path is invalid: %s, %s'", tokenUri, path)
+		if path != tokenURI {
+			t.Fatalf("path is invalid: %s, %s'", tokenURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -61,7 +61,7 @@ func TestToken(t *testing.T) {
 	}
 
 	timestamp := cast.ToString(utils.GetCurrTime())
-	if ret, err := token.do(ts.URL+tokenUri, timestamp); err != nil {
+	if ret, err := token.do(ts.URL+tokenURI, timestamp); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
@@ -72,7 +72,7 @@ func TestToken(t *testing.T) {
 		}
 	}
 
-	if ret, err := token.do(ts.URL+tokenUri, "100"); err != nil {
+	if ret, err := token.do(ts.URL+tokenURI, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const allLiveUri = "/api/thirdPart/allLive"
+const allLiveURI = "/api/thirdPart/allLive"
 
-// AllLive
+// AllLive ...
 type AllLive struct {
 	BaseClient
 	Token string
 }
 
-// AllLiveResponse
+// AllLiveResponse ...
 type AllLiveResponse struct {
 	ErrorResponse
 	Data []struct {
@@ -31,33 +31,32 @@ type AllLiveResponse struct {
 	} `json:"data"`
 }
 
-// Handle
-func (p *AllLive) Handle(postJson, timestamp string) (*AllLiveResponse, error) {
-	return p.do(DouYuDomain+liveUri, postJson, timestamp)
+// Handle ...
+func (p *AllLive) Handle(postJSON, timestamp string) (*AllLiveResponse, error) {
+	return p.do(DouYuDomain+liveURI, postJSON, timestamp)
 }
 
 // do
-func (p *AllLive) do(url, postJson, timestamp string) (*AllLiveResponse, error) {
+func (p *AllLive) do(url, postJSON, timestamp string) (*AllLiveResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, liveUri, params)
+	params["auth"] = GetSign(p.Secret, liveURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(AllLiveResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(AllLiveResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

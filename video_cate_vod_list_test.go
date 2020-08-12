@@ -16,8 +16,8 @@ func TestVideoCateVodList(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != videoCateVodListUri {
-			t.Fatalf("path is invalid: %s, %s'", videoCateVodListUri, path)
+		if path != videoCateVodListURI {
+			t.Fatalf("path is invalid: %s, %s'", videoCateVodListURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -71,7 +71,7 @@ func TestVideoCateVodList(t *testing.T) {
 	timestamp := utils.GetCurrTime()
 	postStr := `{"cid":1,"offset":0,"limit":10}`
 
-	if ret, err := video.do(ts.URL+videoCateVodListUri, postStr, cast.ToString(timestamp)); err != nil {
+	if ret, err := video.do(ts.URL+videoCateVodListURI, postStr, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || (ret.Data)[0].HashID != "3rob7jb55Dj7gkZl" {
@@ -79,7 +79,7 @@ func TestVideoCateVodList(t *testing.T) {
 		}
 	}
 
-	if ret, err := video.do(ts.URL+videoCateVodListUri, postStr, "100"); err != nil {
+	if ret, err := video.do(ts.URL+videoCateVodListURI, postStr, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

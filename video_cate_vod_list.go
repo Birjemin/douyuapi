@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const videoCateVodListUri = "/api/thirdPart/video/cateVodList"
+const videoCateVodListURI = "/api/thirdPart/video/cateVodList"
 
-// VideoCateVodList
+// VideoCateVodList ...
 type VideoCateVodList struct {
 	BaseClient
 	Token string
 }
 
-// VideoCateVodListResponse
+// VideoCateVodListResponse ...
 type VideoCateVodListResponse struct {
 	ErrorResponse
 	Data []struct {
@@ -32,39 +32,38 @@ type VideoCateVodListResponse struct {
 		VideoCollectNum    int    `json:"video_collect_num"`
 		VideoUpNum         int    `json:"video_up_num"`
 		BarrageNum         int    `json:"barrage_num"`
-		VideoUrl           string `json:"video_url"`
-		H5VideoUrl         string `json:"h5_video_url"`
-		ShareUrl           string `json:"share_url"`
+		VideoURL           string `json:"video_url"`
+		H5VideoURL         string `json:"h5_video_url"`
+		ShareURL           string `json:"share_url"`
 	} `json:"data"`
 }
 
-// Handle
-func (p *VideoCateVodList) Handle(postJson, timestamp string) (*VideoCateVodListResponse, error) {
-	return p.do(DouYuDomain+videoCateVodListUri, postJson, timestamp)
+// Handle ...
+func (p *VideoCateVodList) Handle(postJSON, timestamp string) (*VideoCateVodListResponse, error) {
+	return p.do(DouYuDomain+videoCateVodListURI, postJSON, timestamp)
 }
 
 // do
-func (p *VideoCateVodList) do(url, postJson, timestamp string) (*VideoCateVodListResponse, error) {
+func (p *VideoCateVodList) do(url, postJSON, timestamp string) (*VideoCateVodListResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, videoCateVodListUri, params)
+	params["auth"] = GetSign(p.Secret, videoCateVodListURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(VideoCateVodListResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(VideoCateVodListResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

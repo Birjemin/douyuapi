@@ -17,8 +17,8 @@ func TestIDFA(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != idfaUri {
-			t.Fatalf("path is invalid: %s, %s'", idfaUri, path)
+		if path != idfaURI {
+			t.Fatalf("path is invalid: %s, %s'", idfaURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -77,7 +77,7 @@ func TestIDFA(t *testing.T) {
 		"080006E2-5666-49C1-8786-3FD9FC77DC0B",
 	)
 
-	if ret, err := idfaInfo.do(ts.URL+idfaUri, chat, cast.ToString(timestamp)); err != nil {
+	if ret, err := idfaInfo.do(ts.URL+idfaURI, chat, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
@@ -85,7 +85,7 @@ func TestIDFA(t *testing.T) {
 		}
 	}
 
-	if ret, err := idfaInfo.do(ts.URL+idfaUri, chat, "100"); err != nil {
+	if ret, err := idfaInfo.do(ts.URL+idfaURI, chat, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

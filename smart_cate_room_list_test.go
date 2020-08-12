@@ -16,8 +16,8 @@ func TestSmartCateRoomList(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != smartCateRoomListUri {
-			t.Fatalf("path is invalid: %s, %s'", smartCateRoomListUri, path)
+		if path != smartCateRoomListURI {
+			t.Fatalf("path is invalid: %s, %s'", smartCateRoomListURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -71,7 +71,7 @@ func TestSmartCateRoomList(t *testing.T) {
 	timestamp := utils.GetCurrTime()
 	msg := `{"cid2":1,"tag2":1}`
 
-	if ret, err := list.do(ts.URL+smartCateRoomListUri, msg, cast.ToString(timestamp)); err != nil {
+	if ret, err := list.do(ts.URL+smartCateRoomListURI, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || (ret.Data)[0].RID != 1 {
@@ -79,7 +79,7 @@ func TestSmartCateRoomList(t *testing.T) {
 		}
 	}
 
-	if ret, err := list.do(ts.URL+smartCateRoomListUri, msg, "100"); err != nil {
+	if ret, err := list.do(ts.URL+smartCateRoomListURI, msg, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

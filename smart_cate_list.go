@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const smartCateListUri = "/api/thirdPart/smartCateList"
+const smartCateListURI = "/api/thirdPart/smartCateList"
 
-// SmartCateList
+// SmartCateList ...
 type SmartCateList struct {
 	BaseClient
 	Token string
 }
 
-// SmartCateListResponse
+// SmartCateListResponse ...
 type SmartCateListResponse struct {
 	ErrorResponse
 	Data []struct {
@@ -26,33 +26,32 @@ type SmartCateListResponse struct {
 	} `json:"data"`
 }
 
-// Handle
-func (p *SmartCateList) Handle(postJson, timestamp string) (*SmartCateListResponse, error) {
-	return p.do(DouYuDomain+smartCateListUri, postJson, timestamp)
+// Handle ...
+func (p *SmartCateList) Handle(postJSON, timestamp string) (*SmartCateListResponse, error) {
+	return p.do(DouYuDomain+smartCateListURI, postJSON, timestamp)
 }
 
 // do
-func (p *SmartCateList) do(url, postJson, timestamp string) (*SmartCateListResponse, error) {
+func (p *SmartCateList) do(url, postJSON, timestamp string) (*SmartCateListResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, smartCateListUri, params)
+	params["auth"] = GetSign(p.Secret, smartCateListURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(SmartCateListResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(SmartCateListResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

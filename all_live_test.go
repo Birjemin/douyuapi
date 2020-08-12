@@ -11,13 +11,13 @@ import (
 	"time"
 )
 
-// TestAllLive
+// TestAllLive ...
 func TestAllLive(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != allLiveUri {
-			t.Fatalf("path is invalid: %s, %s'", allLiveUri, path)
+		if path != allLiveURI {
+			t.Fatalf("path is invalid: %s, %s'", allLiveURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -72,7 +72,7 @@ func TestAllLive(t *testing.T) {
 
 	msg := `{"cid_type":1,"cid":1}`
 
-	if ret, err := allLive.do(ts.URL+allLiveUri, msg, cast.ToString(timestamp)); err != nil {
+	if ret, err := allLive.do(ts.URL+allLiveURI, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || len(ret.Data) != 1 {
@@ -80,7 +80,7 @@ func TestAllLive(t *testing.T) {
 		}
 	}
 
-	if ret, err := allLive.do(ts.URL+allLiveUri, msg, "100"); err != nil {
+	if ret, err := allLive.do(ts.URL+allLiveURI, msg, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

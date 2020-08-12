@@ -15,8 +15,8 @@ func TestGetCid1Info(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != cid1InfoUri {
-			t.Fatalf("path is invalid: %s, %s'", cid1InfoUri, path)
+		if path != cid1InfoURI {
+			t.Fatalf("path is invalid: %s, %s'", cid1InfoURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -64,7 +64,7 @@ func TestGetCid1Info(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := cid1Info.do(ts.URL+cid1InfoUri, cast.ToString(timestamp)); err != nil {
+	if ret, err := cid1Info.do(ts.URL+cid1InfoURI, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
@@ -75,7 +75,7 @@ func TestGetCid1Info(t *testing.T) {
 		}
 	}
 
-	if ret, err := cid1Info.do(ts.URL+cid1InfoUri, "100"); err != nil {
+	if ret, err := cid1Info.do(ts.URL+cid1InfoURI, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

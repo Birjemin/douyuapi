@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const smartCateRoomListUri = "/api/thirdPart/smartCateRoomList"
+const smartCateRoomListURI = "/api/thirdPart/smartCateRoomList"
 
-// SmartCateRoomList
+// SmartCateRoomList ...
 type SmartCateRoomList struct {
 	BaseClient
 	Token string
 }
 
-// SmartCateRoomListResponse
+// SmartCateRoomListResponse ...
 type SmartCateRoomListResponse struct {
 	ErrorResponse
 	Data []struct {
@@ -39,33 +39,32 @@ type SmartCateRoomListResponse struct {
 	} `json:"data"`
 }
 
-// Handle
-func (p *SmartCateRoomList) Handle(postJson, timestamp string) (*SmartCateRoomListResponse, error) {
-	return p.do(DouYuDomain+smartCateRoomListUri, postJson, timestamp)
+// Handle ...
+func (p *SmartCateRoomList) Handle(postJSON, timestamp string) (*SmartCateRoomListResponse, error) {
+	return p.do(DouYuDomain+smartCateRoomListURI, postJSON, timestamp)
 }
 
 // SmartCateRoomList
-func (p *SmartCateRoomList) do(url, postJson, timestamp string) (*SmartCateRoomListResponse, error) {
+func (p *SmartCateRoomList) do(url, postJSON, timestamp string) (*SmartCateRoomListResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, smartCateRoomListUri, params)
+	params["auth"] = GetSign(p.Secret, smartCateRoomListURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(SmartCateRoomListResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(SmartCateRoomListResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }

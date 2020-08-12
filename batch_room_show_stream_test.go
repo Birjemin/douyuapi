@@ -15,8 +15,8 @@ func TestBatchRoomShowStream(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != batchRoomShowStreamUri {
-			t.Fatalf("path is invalid: %s, %s'", batchRoomShowStreamUri, path)
+		if path != batchRoomShowStreamURI {
+			t.Fatalf("path is invalid: %s, %s'", batchRoomShowStreamURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -69,7 +69,7 @@ func TestBatchRoomShowStream(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := list.do(ts.URL+batchRoomShowStreamUri, `{"rids": [288016]}`, cast.ToString(timestamp)); err != nil {
+	if ret, err := list.do(ts.URL+batchRoomShowStreamURI, `{"rids": [288016]}`, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
@@ -80,7 +80,7 @@ func TestBatchRoomShowStream(t *testing.T) {
 		}
 	}
 
-	if ret, err := list.do(ts.URL+batchRoomShowStreamUri, `{"rids": [288016]}`, "100"); err != nil {
+	if ret, err := list.do(ts.URL+batchRoomShowStreamURI, `{"rids": [288016]}`, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

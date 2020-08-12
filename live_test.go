@@ -16,8 +16,8 @@ func TestLive(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != liveUri {
-			t.Fatalf("path is invalid: %s, %s'", liveUri, path)
+		if path != liveURI {
+			t.Fatalf("path is invalid: %s, %s'", liveURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -72,7 +72,7 @@ func TestLive(t *testing.T) {
 
 	msg := `{"cid_type":1,"cid":1,"limit":10,"offset":0}`
 
-	if ret, err := live.do(ts.URL+liveUri, msg, cast.ToString(timestamp)); err != nil {
+	if ret, err := live.do(ts.URL+liveURI, msg, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 || (ret.Data)[0].RID != 1 {
@@ -80,7 +80,7 @@ func TestLive(t *testing.T) {
 		}
 	}
 
-	if ret, err := live.do(ts.URL+liveUri, msg, "100"); err != nil {
+	if ret, err := live.do(ts.URL+liveURI, msg, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

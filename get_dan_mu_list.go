@@ -4,15 +4,15 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const getDanMuListUri = "/api/thirdPart/getDanMuList"
+const getDanMuListURI = "/api/thirdPart/getDanMuList"
 
-// GetDanMuList
+// GetDanMuList ...
 type GetDanMuList struct {
 	BaseClient
 	Token string
 }
 
-// GetDanMuListResponse
+// GetDanMuListResponse ...
 type GetDanMuListResponse struct {
 	ErrorResponse
 	Data struct {
@@ -29,32 +29,31 @@ type GetDanMuListResponse struct {
 	} `json:"data"`
 }
 
-// Handle
-func (p *GetDanMuList) Handle(postJson, timestamp string) (*GetDanMuListResponse, error) {
-	return p.do(DouYuDomain+getDanMuListUri, postJson, timestamp)
+// Handle ...
+func (p *GetDanMuList) Handle(postJSON, timestamp string) (*GetDanMuListResponse, error) {
+	return p.do(DouYuDomain+getDanMuListURI, postJSON, timestamp)
 }
 
 // do
-func (p *GetDanMuList) do(url, postJson, timestamp string) (*GetDanMuListResponse, error) {
+func (p *GetDanMuList) do(url, postJSON, timestamp string) (*GetDanMuListResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, getDanMuListUri, params)
+	params["auth"] = GetSign(p.Secret, getDanMuListURI, params)
 
 	url += "?" + utils.HttpQueryBuild(params)
-	if err := p.Client.HttpPostJson(url, postJson); err != nil {
+	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
 		return nil, err
-	} else {
-		var ret, errResp = new(GetDanMuListResponse), new(ErrorResponse)
-		if err = p.Client.GetResponseJson(ret, errResp); err != nil {
-			return nil, err
-		}
-		if errResp.Code != 0 {
-			ret.Code = errResp.Code
-			ret.Msg = errResp.Msg
-		}
-		return ret, nil
 	}
+	var ret, errResp = new(GetDanMuListResponse), new(ErrorResponse)
+	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+		return nil, err
+	}
+	if errResp.Code != 0 {
+		ret.Code = errResp.Code
+		ret.Msg = errResp.Msg
+	}
+	return ret, nil
 }
