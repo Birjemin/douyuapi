@@ -46,49 +46,49 @@ go get github.com/birjemin/douyuapi
 - 示例
 
 ```golang
-    httpClient := &utils.HTTPClient{
-		Client: &http.Client{
-			Timeout: 5 * time.Second,
-		},
-	}
+httpClient := &utils.HTTPClient{
+    Client: &http.Client{
+        Timeout: 5 * time.Second,
+    },
+}
 
-	token := &Token{
-		BaseClient: BaseClient{
-			Client: httpClient,
-			Secret: "test-secret",
-			AID:    "test-aid",
-		},
-	}
+token := &Token{
+    BaseClient: BaseClient{
+        Client: httpClient,
+        Secret: "test-secret",
+        AID:    "test-aid",
+    },
+}
 
-	timestamp := cast.ToString(utils.GetCurrTime())
-	if ret, err := token.Handle(timestamp); err != nil {
-		// handle err
-	} else {
-		if ret.Code != 0 {
-			// handle err
-		}
-		// get ret.Data.Token
-	}
-	
-    live := &Live{
-        BaseClient: BaseClient{
-            Client: httpClient,
-            Secret: "test-secret",
-            AID:    "test-aid",
-        },
-        Token: "test-token",
-    }
-
-    msg := `{"cid_type":1,"cid":1,"limit":10,"offset":0}`
-
-    if ret, err := live.Handle(msg, cast.ToString(timestamp)); err != nil {
+timestamp := cast.ToString(utils.GetCurrTime())
+if ret, err := token.Handle(timestamp); err != nil {
+    // handle err
+} else {
+    if ret.Code != 0 {
         // handle err
-    } else {
-        if ret.Code != 0 {
-            // handle err
-        }
-        // handle
     }
+    // get ret.Data.Token
+}
+
+live := &Live{
+    BaseClient: BaseClient{
+        Client: httpClient,
+        Secret: "test-secret",
+        AID:    "test-aid",
+    },
+    Token: "test-token",
+}
+
+msg := `{"cid_type":1,"cid":1,"limit":10,"offset":0}`
+
+if ret, err := live.Handle(msg, cast.ToString(timestamp)); err != nil {
+    // handle err
+} else {
+    if ret.Code != 0 {
+        // handle err
+    }
+    // handle
+}
 ```
 
 ### 备注
