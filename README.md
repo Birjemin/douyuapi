@@ -1,6 +1,8 @@
 ## 斗鱼-api
 
-[![Build Status](https://travis-ci.com/Birjemin/ls-pro.svg?branch=master)](http://travis-ci.org/mrb/hob) [![Go Report Card](https://goreportcard.com/badge/github.com/birjemin/ls-pro)](https://goreportcard.com/report/github.com/birjemin/ls-pro) [![codecov](https://codecov.io/gh/Birjemin/ls-pro/branch/master/graph/badge.svg)](https://codecov.io/gh/Birjemin/ls-pro)
+[![Build Status](https://travis-ci.com/Birjemin/douyuapi.svg?branch=master)](http://travis-ci.org/mrb/hob) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/birjemin/douyuapi)](https://goreportcard.com/report/github.com/birjemin/douyuapi)
+[![codecov](https://codecov.io/gh/Birjemin/douyuapi/branch/master/graph/badge.svg)](https://codecov.io/gh/Birjemin/douyuapi)
 
 
 [开发者中心](https://open.douyu.com/source)
