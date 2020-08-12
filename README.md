@@ -81,7 +81,7 @@ go get github.com/birjemin/douyuapi
 
     msg := `{"cid_type":1,"cid":1,"limit":10,"offset":0}`
 
-    if ret, err := live.do(ts.URL+liveURI, msg, cast.ToString(timestamp)); err != nil {
+    if ret, err := live.Handle(msg, cast.ToString(timestamp)); err != nil {
         // handle err
     } else {
         if ret.Code != 0 {
