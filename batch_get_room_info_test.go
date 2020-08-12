@@ -15,8 +15,8 @@ func TestBatchGetRoomInfo(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != batchRoomInfoURI {
-			t.Fatalf("path is invalid: %s, %s'", batchRoomInfoURI, path)
+		if path != batchGetRoomInfoURI {
+			t.Fatalf("path is invalid: %s, %s'", batchGetRoomInfoURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -58,7 +58,7 @@ func TestBatchGetRoomInfo(t *testing.T) {
 		},
 	}
 
-	batchRoomInfo := &BatchRoomInfo{
+	batchGetRoomInfo := &BatchGetRoomInfo{
 		BaseClient: BaseClient{
 			Client: httpClient,
 			Secret: "test-secret",
@@ -69,7 +69,7 @@ func TestBatchGetRoomInfo(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := batchRoomInfo.do(ts.URL+batchRoomInfoURI, `{"rids": [288016]}`, cast.ToString(timestamp)); err != nil {
+	if ret, err := batchGetRoomInfo.do(ts.URL+batchGetRoomInfoURI, `{"rids": [288016]}`, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
@@ -80,7 +80,7 @@ func TestBatchGetRoomInfo(t *testing.T) {
 		}
 	}
 
-	if ret, err := batchRoomInfo.do(ts.URL+batchRoomInfoURI, `{"rids": [288016]}`, "100"); err != nil {
+	if ret, err := batchGetRoomInfo.do(ts.URL+batchGetRoomInfoURI, `{"rids": [288016]}`, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

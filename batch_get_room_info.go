@@ -4,16 +4,16 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const batchRoomInfoURI = "/api/thirdPart/batchGetRoomInfo"
+const batchGetRoomInfoURI = "/api/thirdPart/batchGetRoomInfo"
 
-// BatchRoomInfo ...
-type BatchRoomInfo struct {
+// BatchGetRoomInfo ...
+type BatchGetRoomInfo struct {
 	BaseClient
 	Token string
 }
 
-// BatchRoomInfoResponse ...
-type BatchRoomInfoResponse struct {
+// BatchGetRoomInfoResponse ...
+type BatchGetRoomInfoResponse struct {
 	ErrorResponse
 	Data []struct {
 		RID        int    `json:"rid"`
@@ -36,25 +36,25 @@ type BatchRoomInfoResponse struct {
 }
 
 // Handle ...
-func (p *BatchRoomInfo) Handle(postJSON, timestamp string) (*BatchRoomInfoResponse, error) {
-	return p.do(DouYuDomain+batchRoomInfoURI, postJSON, timestamp)
+func (p *BatchGetRoomInfo) Handle(postJSON, timestamp string) (*BatchGetRoomInfoResponse, error) {
+	return p.do(DouYuDomain+batchGetRoomInfoURI, postJSON, timestamp)
 }
 
 // do
-func (p *BatchRoomInfo) do(url, postJSON, timestamp string) (*BatchRoomInfoResponse, error) {
+func (p *BatchGetRoomInfo) do(url, postJSON, timestamp string) (*BatchGetRoomInfoResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, batchRoomInfoURI, params)
+	params["auth"] = GetSign(p.Secret, batchGetRoomInfoURI, params)
 
 	url += "?" + utils.HTTPQueryBuild(params)
 
 	if err := p.Client.HTTPPostJSON(url, postJSON); err != nil {
 		return nil, err
 	}
-	var ret, errResp = new(BatchRoomInfoResponse), new(ErrorResponse)
+	var ret, errResp = new(BatchGetRoomInfoResponse), new(ErrorResponse)
 	if err := p.Client.GetResponseJSON(ret, errResp); err != nil {
 		return nil, err
 	}
