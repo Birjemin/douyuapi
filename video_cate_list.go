@@ -35,13 +35,13 @@ func (p *VideoCateList) do(url, timestamp string) (*VideoCateListResponse, error
 	}
 	params["auth"] = GetSign(p.Secret, videoCateListURI, params)
 
-	url += "?" + utils.HttpQueryBuild(params)
+	url += "?" + utils.HTTPQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, "{}"); err != nil {
+	if err := p.Client.HTTPPostJSON(url, "{}"); err != nil {
 		return nil, err
 	}
 	var ret, errResp = new(VideoCateListResponse), new(ErrorResponse)
-	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+	if err := p.Client.GetResponseJSON(ret, errResp); err != nil {
 		return nil, err
 	}
 	if errResp.Code != 0 {

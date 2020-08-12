@@ -29,12 +29,12 @@ func (t *Token) do(url, timestamp string) (*TokenResponse, error) {
 	}
 	params["auth"] = GetSign(t.Secret, tokenURI, params)
 
-	err := t.Client.HttpGet(url, params)
+	err := t.Client.HTTPGet(url, params)
 	if err != nil {
 		return nil, err
 	}
 	var ret, errResp = new(TokenResponse), new(ErrorResponse)
-	if err = t.Client.GetResponseJson(ret, errResp); err != nil {
+	if err = t.Client.GetResponseJSON(ret, errResp); err != nil {
 		return nil, err
 	}
 	if errResp.Code != 0 {

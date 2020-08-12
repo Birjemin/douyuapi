@@ -32,12 +32,12 @@ func (p *OuterChat) do(url, chat, timestamp string) (*OuterChatResponse, error) 
 	}
 	params["auth"] = GetSign(p.Secret, outerChatURI, params)
 
-	url += "?" + utils.HttpQueryBuild(params)
-	if err := p.Client.HttpPostJson(url, chat); err != nil {
+	url += "?" + utils.HTTPQueryBuild(params)
+	if err := p.Client.HTTPPostJSON(url, chat); err != nil {
 		return nil, err
 	}
 	var ret, errResp = new(OuterChatResponse), new(ErrorResponse)
-	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+	if err := p.Client.GetResponseJSON(ret, errResp); err != nil {
 		return nil, err
 	}
 	if errResp.Code != 0 {

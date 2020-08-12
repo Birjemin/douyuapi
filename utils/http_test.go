@@ -19,13 +19,13 @@ func TestGetString(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{
+	c := &HTTPClient{
 		Client: &http.Client{
 			Timeout: 5 * time.Second,
 		},
 	}
 
-	if err := c.HttpGet(ts.URL, map[string]string{"param": "hello get", "param1": "yo~"}); err != nil {
+	if err := c.HTTPGet(ts.URL, map[string]string{"param": "hello get", "param1": "yo~"}); err != nil {
 		t.Fatal(err)
 	}
 	if ret, err := c.GetResponseByte(); err != nil {
@@ -44,22 +44,22 @@ func TestGetJson(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{
+	c := &HTTPClient{
 		Client: &http.Client{
 			Timeout: 5 * time.Second,
 		},
 	}
 
-	if err := c.HttpGet(ts.URL, map[string]string{"param": "{\"code\":1,\"msg\":\"ddd\"}", "param1": "yo~"}); err != nil {
+	if err := c.HTTPGet(ts.URL, map[string]string{"param": "{\"code\":1,\"msg\":\"ddd\"}", "param1": "yo~"}); err != nil {
 		t.Fatal(err)
 	}
 
-	type JsonResponse struct {
+	type JSONResponse struct {
 		Code int
 		Msg  string
 	}
-	var resp = new(JsonResponse)
-	if err := c.GetResponseJson(resp, resp); err != nil {
+	var resp = new(JSONResponse)
+	if err := c.GetResponseJSON(resp, resp); err != nil {
 		t.Fatal(err)
 	}
 	ast.Equal(1, resp.Code)
@@ -75,13 +75,13 @@ func TestPostString(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{
+	c := &HTTPClient{
 		Client: &http.Client{
 			Timeout: 5 * time.Second,
 		},
 	}
 
-	if err := c.HttpPost(ts.URL, map[string]string{"param": "hello post", "param1": "yo~"}); err != nil {
+	if err := c.HTTPPost(ts.URL, map[string]string{"param": "hello post", "param1": "yo~"}); err != nil {
 		t.Fatal(err)
 	}
 
@@ -103,23 +103,23 @@ func TestPostJson(t *testing.T) {
 
 	defer ts.Close()
 
-	c := &HttpClient{
+	c := &HTTPClient{
 		Client: &http.Client{
 			Timeout: 5 * time.Second,
 		},
 	}
 
-	if err := c.HttpPostJson(ts.URL, "{\"code\":1,\"msg\":\"ddd\"}"); err != nil {
+	if err := c.HTTPPostJSON(ts.URL, "{\"code\":1,\"msg\":\"ddd\"}"); err != nil {
 		t.Fatal(err)
 	} else {
 
-		type JsonResponse struct {
+		type JSONResponse struct {
 			Code int
 			Msg  string
 		}
-		var resp = new(JsonResponse)
+		var resp = new(JSONResponse)
 
-		if err = c.GetResponseJson(resp, resp); err != nil {
+		if err = c.GetResponseJSON(resp, resp); err != nil {
 			t.Fatal(err)
 		}
 		ast.Equal(1, resp.Code)
@@ -127,10 +127,10 @@ func TestPostJson(t *testing.T) {
 	}
 }
 
-// TestHttpQueryBuild
-func TestHttpQueryBuild(t *testing.T) {
+// TestHTTPQueryBuild
+func TestHTTPQueryBuild(t *testing.T) {
 	ast := assert.New(t)
 
-	ret := HttpQueryBuild(map[string]string{"b": "11", "a": "22"})
+	ret := HTTPQueryBuild(map[string]string{"b": "11", "a": "22"})
 	ast.Equal(ret, "a=22&b=11")
 }

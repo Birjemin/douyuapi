@@ -52,13 +52,13 @@ func (p *RecompoolVodList) do(url, postJSON, timestamp string) (*RecompoolVodLis
 	}
 	params["auth"] = GetSign(p.Secret, recompoolVodListURI, params)
 
-	url += "?" + utils.HttpQueryBuild(params)
+	url += "?" + utils.HTTPQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, postJSON); err != nil {
+	if err := p.Client.HTTPPostJSON(url, postJSON); err != nil {
 		return nil, err
 	}
 	var ret, errResp = new(RecompoolVodListResponse), new(ErrorResponse)
-	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+	if err := p.Client.GetResponseJSON(ret, errResp); err != nil {
 		return nil, err
 	}
 	if errResp.Code != 0 {

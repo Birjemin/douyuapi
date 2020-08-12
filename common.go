@@ -10,7 +10,7 @@ const DouYuDomain = "https://openapi.douyu.com"
 
 // BaseClient base client
 type BaseClient struct {
-	Client *utils.HttpClient
+	Client *utils.HTTPClient
 	Secret string
 	AID    string
 }

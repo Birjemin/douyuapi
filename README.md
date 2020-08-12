@@ -48,7 +48,7 @@ go get github.com/birjemin/douyuapi
 - 示例
 
 ```golang
-    httpClient := &utils.HttpClient{
+    httpClient := &utils.HTTPClient{
 		Client: &http.Client{
 			Timeout: 5 * time.Second,
 		},

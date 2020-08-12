@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 )
 
-// mdt string
+// GetMD5String md5 string
 func GetMD5String(strings string) string {
 
 	md5Ctx := md5.New()
@@ -15,7 +15,7 @@ func GetMD5String(strings string) string {
 	return hex.EncodeToString(cipherStr)
 }
 
-// md5 by byte
+// Md5ByByte md5 by byte
 func Md5ByByte(bytes []byte) string {
 
 	md5Ctx := md5.New()
@@ -34,6 +34,7 @@ func Bytes(n int) []byte {
 	return b
 }
 
+// Hex ...
 func Hex(n int) string {
 	return hex.EncodeToString(Bytes(n))
 }

@@ -47,7 +47,7 @@ func TestGetCid1Info(t *testing.T) {
 
 	defer ts.Close()
 
-	httpClient := &utils.HttpClient{
+	httpClient := &utils.HTTPClient{
 		Client: &http.Client{
 			Timeout: 5 * time.Second,
 		},

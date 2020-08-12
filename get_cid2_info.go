@@ -36,13 +36,13 @@ func (p *Cid2Info) do(url, timestamp string) (*Cid2InfoResponse, error) {
 	}
 	params["auth"] = GetSign(p.Secret, cid2InfoURI, params)
 
-	url += "?" + utils.HttpQueryBuild(params)
+	url += "?" + utils.HTTPQueryBuild(params)
 
-	if err := p.Client.HttpPostJson(url, ""); err != nil {
+	if err := p.Client.HTTPPostJSON(url, ""); err != nil {
 		return nil, err
 	}
 	var ret, errResp = new(Cid2InfoResponse), new(ErrorResponse)
-	if err := p.Client.GetResponseJson(ret, errResp); err != nil {
+	if err := p.Client.GetResponseJSON(ret, errResp); err != nil {
 		return nil, err
 	}
 	if errResp.Code != 0 {

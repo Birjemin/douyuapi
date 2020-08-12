@@ -7,6 +7,6 @@ import (
 
 // GetSign ...
 func GetSign(secret, uri string, params map[string]string) string {
-	str := fmt.Sprintf("%s?%s%s", uri, utils.HttpQueryBuild(params), secret)
+	str := fmt.Sprintf("%s?%s%s", uri, utils.HTTPQueryBuild(params), secret)
 	return utils.GetMD5String(str)
 }
