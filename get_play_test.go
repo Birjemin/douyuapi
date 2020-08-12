@@ -15,8 +15,8 @@ func TestGetPlay(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		path := r.URL.EscapedPath()
-		if path != playURI {
-			t.Fatalf("path is invalid: %s, %s'", playURI, path)
+		if path != getPlayURI {
+			t.Fatalf("path is invalid: %s, %s'", getPlayURI, path)
 		}
 
 		if err := r.ParseForm(); err != nil {
@@ -58,7 +58,7 @@ func TestGetPlay(t *testing.T) {
 		},
 	}
 
-	play := &Play{
+	play := &GetPlay{
 		BaseClient: BaseClient{
 			Client: httpClient,
 			Secret: "test-secret",
@@ -69,7 +69,7 @@ func TestGetPlay(t *testing.T) {
 
 	timestamp := utils.GetCurrTime()
 
-	if ret, err := play.do(ts.URL+playURI, `{"rid": 288016}`, cast.ToString(timestamp)); err != nil {
+	if ret, err := play.do(ts.URL+getPlayURI, `{"rid": 288016}`, cast.ToString(timestamp)); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 0 {
@@ -80,7 +80,7 @@ func TestGetPlay(t *testing.T) {
 		}
 	}
 
-	if ret, err := play.do(ts.URL+playURI, `{"rid": 288016}`, "100"); err != nil {
+	if ret, err := play.do(ts.URL+getPlayURI, `{"rid": 288016}`, "100"); err != nil {
 		t.Error(err)
 	} else {
 		if ret.Code != 100 {

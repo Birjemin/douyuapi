@@ -4,16 +4,16 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const playURI = "/api/thirdPart/getPlay"
+const getPlayURI = "/api/thirdPart/getPlay"
 
-// Play ...
-type Play struct {
+// GetPlay ...
+type GetPlay struct {
 	BaseClient
 	Token string
 }
 
-// PlayResponse ...
-type PlayResponse struct {
+// GetPlayResponse ...
+type GetPlayResponse struct {
 	ErrorResponse
 	Data struct {
 		RID        int         `json:"rid"`
@@ -29,25 +29,25 @@ type PlayResponse struct {
 }
 
 // Handle ...
-func (p *Play) Handle(postJSON, timestamp string) (*PlayResponse, error) {
-	return p.do(DouYuDomain+playURI, postJSON, timestamp)
+func (p *GetPlay) Handle(postJSON, timestamp string) (*GetPlayResponse, error) {
+	return p.do(DouYuDomain+getPlayURI, postJSON, timestamp)
 }
 
 // do
-func (p *Play) do(url, postJSON, timestamp string) (*PlayResponse, error) {
+func (p *GetPlay) do(url, postJSON, timestamp string) (*GetPlayResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, playURI, params)
+	params["auth"] = GetSign(p.Secret, getPlayURI, params)
 
 	url += "?" + utils.HTTPQueryBuild(params)
 
 	if err := p.Client.HTTPPostJSON(url, postJSON); err != nil {
 		return nil, err
 	}
-	var ret, errResp = new(PlayResponse), new(ErrorResponse)
+	var ret, errResp = new(GetPlayResponse), new(ErrorResponse)
 	if err := p.Client.GetResponseJSON(ret, errResp); err != nil {
 		return nil, err
 	}

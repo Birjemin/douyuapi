@@ -4,16 +4,16 @@ import (
 	"github.com/birjemin/douyuapi/utils"
 )
 
-const roomInfoURI = "/api/thirdPart/getRoomInfo"
+const getRoomInfoURI = "/api/thirdPart/getRoomInfo"
 
-// RoomInfo ...
-type RoomInfo struct {
+// GetRoomInfo ...
+type GetRoomInfo struct {
 	BaseClient
 	Token string
 }
 
-// RoomInfoResponse ...
-type RoomInfoResponse struct {
+// GetRoomInfoResponse ...
+type GetRoomInfoResponse struct {
 	ErrorResponse
 	Data struct {
 		RID        int    `json:"rid"`
@@ -39,25 +39,25 @@ type RoomInfoResponse struct {
 }
 
 // Handle ...
-func (p *RoomInfo) Handle(postJSON, timestamp string) (*RoomInfoResponse, error) {
-	return p.do(DouYuDomain+roomInfoURI, postJSON, timestamp)
+func (p *GetRoomInfo) Handle(postJSON, timestamp string) (*GetRoomInfoResponse, error) {
+	return p.do(DouYuDomain+getRoomInfoURI, postJSON, timestamp)
 }
 
 // do
-func (p *RoomInfo) do(url, postJSON, timestamp string) (*RoomInfoResponse, error) {
+func (p *GetRoomInfo) do(url, postJSON, timestamp string) (*GetRoomInfoResponse, error) {
 	var params = map[string]string{
 		"aid":   p.AID,
 		"time":  timestamp,
 		"token": p.Token,
 	}
-	params["auth"] = GetSign(p.Secret, roomInfoURI, params)
+	params["auth"] = GetSign(p.Secret, getRoomInfoURI, params)
 
 	url += "?" + utils.HTTPQueryBuild(params)
 
 	if err := p.Client.HTTPPostJSON(url, postJSON); err != nil {
 		return nil, err
 	}
-	var ret, errResp = new(RoomInfoResponse), new(ErrorResponse)
+	var ret, errResp = new(GetRoomInfoResponse), new(ErrorResponse)
 	if err := p.Client.GetResponseJSON(ret, errResp); err != nil {
 		return nil, err
 	}
